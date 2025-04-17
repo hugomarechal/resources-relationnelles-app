@@ -1,25 +1,26 @@
-import React, { ChangeEvent, FC } from "react";
+import React, { ChangeEvent } from "react";
 
-//Passer required
 interface InputProps {
   type: "text" | "number" | "email" | "password";
   label: string;
   value: string | number;
   name: string;
-  placeholder: string;
-  error: boolean;
+  required?: boolean;
+  error?: boolean;
   disabled?: boolean;
+  helperText?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FloatingInput: FC<InputProps> = ({
+const FloatingInput: React.FC<InputProps> = ({
   type,
   label,
   value,
   name,
-  placeholder,
+  required,
   error,
   disabled,
+  helperText,
   onChange,
 }) => {
   return (
@@ -33,9 +34,9 @@ const FloatingInput: FC<InputProps> = ({
         className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
           error ? "border-red-500" : "border-gray-300"
         } appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
-        placeholder={placeholder}
+        placeholder=" "
+        required={required}
         onChange={onChange}
-        required
       />
       <label
         htmlFor={name}
@@ -47,7 +48,16 @@ const FloatingInput: FC<InputProps> = ({
         peer-focus:scale-75 peer-focus:-translate-y-6"
       >
         {label}
+        {required && <span aria-hidden="true">*</span>}
       </label>
+      {helperText && helperText?.length > 0 && (
+        <p
+          id="helper-text-explanation"
+          className="mt-2 text-sm text-gray-500 dark:text-gray-400"
+        >
+          {helperText}
+        </p>
+      )}
     </div>
   );
 };
