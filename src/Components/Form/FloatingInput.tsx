@@ -47,8 +47,7 @@ const FloatingInput: React.FC<InputProps> = ({
         peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
         peer-focus:scale-75 peer-focus:-translate-y-6"
       >
-        {label}
-        {required && <span aria-hidden="true">*</span>}
+        {label} {required && <span aria-hidden="true">*</span>}
       </label>
       {helperText && helperText?.length > 0 && (
         <p
