@@ -10,7 +10,7 @@ function App() {
     <>
       <h1 className="text-4xl text-[#000000]">Test title</h1>
       <br />
-      <Button label={"Test bouton"} onClick={handleClick}></Button>
+      <Button label={"Bouton test"} onClick={handleClick}></Button>
     </>
   );
 }
