@@ -1,4 +1,4 @@
-interface Props {
+interface CheckBoxProps {
   isChecked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
@@ -14,7 +14,7 @@ interface Props {
   };
 }
 
-const CheckBox = (props: Props) => {
+const CheckBox = (props: CheckBoxProps) => {
   return (
     <div className="flex items-center">
       <input
