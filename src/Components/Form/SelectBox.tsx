@@ -5,7 +5,7 @@ type SelectOption = {
   value: string;
 };
 
-interface Props {
+interface SelectProps {
   options: SelectOption[];
   value: string;
   name: string;
@@ -15,33 +15,30 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const SelectBox = ({ options, value, name,
-  required,
-  disabled,
-  helperText, onChange }: Props) => {
+const SelectBox = (props: SelectProps) => {
   return (
     <div className="relative z-0 w-full mb-5 group">
       <select
-        name={name}
-        id={name}
-        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-        disabled={disabled}
-        onChange={onChange}
-        required={required}
-        value={value}
+        name={props.name}
+        id={props.name}
+        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        disabled={props.disabled}
+        onChange={props.onChange}
+        required={props.required}
+        value={props.value}
       >
-        {options.map(({ value, label }) => (
+        {props.options.map(({ value, label }) => (
           <option key={value} value={value}>
             {label}
           </option>
         ))}
       </select>
-      {helperText && helperText?.length > 0 && (
+      {props.helperText && props.helperText?.length > 0 && (
         <p
           id="helper-text-explanation"
           className="mt-2 text-sm text-gray-500 dark:text-gray-400"
         >
-          {helperText}
+          {props.helperText}
         </p>
       )}
     </div>

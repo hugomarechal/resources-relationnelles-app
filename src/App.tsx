@@ -3,6 +3,7 @@ import "./App.css";
 import Button from "./Components/Divers/Button";
 import FloatingInput from "./Components/Form/FloatingInput";
 import { SelectBox, SelectOption } from "./Components/Form/SelectBox";
+import CheckBox from "./Components/Form/CheckBox";
 
 function App() {
   // Floating input
@@ -25,8 +26,15 @@ function App() {
     })),
   ];
   const [value, setValue] = useState("");
-  const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setValue(event.target.value);
+  };
+
+  //Checkbox
+  const [isChecked, setIsCheckedA] = useState(false);
+  const handleCBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsCheckedA(e.target.checked);
+    console.log("Valeur case à cocher :", e.target.value, isChecked);
   };
 
   // Bouton
@@ -44,6 +52,7 @@ function App() {
 
       <br />
 
+      {/* Exemple formulaire */}
       <form>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
@@ -56,10 +65,27 @@ function App() {
             ></FloatingInput>
           </div>
           <div>
-            <SelectBox options={options} value={value} onChange={onChange} name={"music"} />
+            <SelectBox
+              options={options}
+              value={value}
+              onChange={handleSelectChange}
+              name={"music"}
+            />
             {value && (
               <p className="text-xs">Id musique sélectionnée {value}</p>
             )}
+          </div>
+          <div>
+            <CheckBox
+              onChange={handleCBChange}
+              isChecked={isChecked}
+              label="J'accepte les"
+              value={"cgv"}
+              linkAfter={{
+                href: "url/conditions-generales",
+                text: "conditions générales de vente",
+              }}
+            />
           </div>
         </div>
         <Button label={"Bouton test"} onClick={handleClick}></Button>
