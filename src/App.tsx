@@ -83,7 +83,7 @@ function App() {
               value={"cgv"}
               linkAfter={{
                 href: "url/conditions-generales",
-                text: "conditions générales de vente",
+                text: "conditions générales d'utilisation",
               }}
             />
           </div>
