@@ -7,6 +7,7 @@ type SelectOption = {
 
 interface SelectProps {
   options: SelectOption[];
+  label: string;
   value: string;
   name: string;
   disabled?: boolean;
@@ -18,6 +19,16 @@ interface SelectProps {
 const SelectBox = (props: SelectProps) => {
   return (
     <div className="relative z-0 w-full mb-5 group">
+      {props.value && (
+        <label
+          htmlFor={props.name}
+          className="absolute left-0 text-sm text-gray-500 dark:text-gray-400 duration-300 
+                  transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                  peer-focus:text-blue-600 peer-focus:dark:text-blue-500"
+        >
+          {props.label}
+        </label>
+      )}
       <select
         name={props.name}
         id={props.name}

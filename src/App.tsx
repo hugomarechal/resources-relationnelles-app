@@ -69,8 +69,8 @@ function App() {
               options={options}
               value={value}
               onChange={handleSelectChange}
-              name={"music"}
-            />
+              name={"music"} 
+              label={"Musique"}            />
             {value && (
               <p className="text-xs">Id musique sélectionnée {value}</p>
             )}
