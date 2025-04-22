@@ -2,31 +2,54 @@ import { ChangeEvent, useState } from "react";
 import FloatingInput from "./FloatingInput";
 import Button from "../Divers/Button";
 import { FaSave } from "react-icons/fa";
+import CheckBox from "./CheckBox";
+import { ApiResponse } from "../../api/apiResponse";
+import { RessourceCategorie } from "../../types/RessourceCategorie";
+import { post } from "../../api/apiClient";
 
 interface CategoryFormProps {
   onSubmit: () => void;
 }
 
 const CategoryForm = (props: CategoryFormProps) => {
-  const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [formData, setFormData] = useState({
+    lib_ressource_categorie: "",
+    visible: false,
+  });
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const { name, value, type, checked } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Libellé enregistré :", inputValue);
+    setLoading(true);
+
+    const payload = {
+      lib_ressource_categorie: formData.lib_ressource_categorie,
+      visible: formData.visible,
+    };
+
+    const response = await post<
+      typeof payload,
+      ApiResponse<RessourceCategorie>
+    >("ressource_categories", payload);
+
+    if (response?.status) {
+      console.log("Catégorie enregistrée :", response.data);
       props.onSubmit();
-      setInputValue("");
-    } catch (e) {
-      console.error("Erreur lors de l'enregistrement", e);
-    } finally {
-      setLoading(false);
+      setFormData({ lib_ressource_categorie: "", visible: false });
+    } else {
+      console.error("Échec de l'enregistrement");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -45,11 +68,19 @@ const CategoryForm = (props: CategoryFormProps) => {
             <FloatingInput
               type={"text"}
               label={"Libellé"}
-              value={inputValue}
-              name={"libCategorie"}
+              value={formData.lib_ressource_categorie}
+              name={"lib_ressource_categorie"}
               required={true}
               onChange={handleInputChange}
             ></FloatingInput>
+          </div>
+          <div className="col-span-2">
+            <CheckBox
+              onChange={handleInputChange}
+              isChecked={formData.visible}
+              label="Visible"
+              name={"visible"}
+            />
           </div>
         </div>
 
@@ -57,7 +88,7 @@ const CategoryForm = (props: CategoryFormProps) => {
           label={"Enregistrer"}
           loading={loading}
           onClick={handleSubmit}
-          disabled={!inputValue.trim() || loading}
+          disabled={!formData.lib_ressource_categorie.trim() || loading}
           icon={<FaSave className="w-4 h-4 mr-2" />}
         ></Button>
       </div>

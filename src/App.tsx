@@ -87,7 +87,7 @@ function App() {
               onChange={handleCBChange}
               isChecked={isChecked}
               label="J'accepte les"
-              value={"cgv"}
+              name={"cgv"}
               linkAfter={{
                 href: "url/conditions-generales",
                 text: "conditions générales d'utilisation",
