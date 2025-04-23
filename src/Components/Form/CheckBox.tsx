@@ -2,7 +2,7 @@ interface CheckBoxProps {
   isChecked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
-  value: string;
+  name: string;
   disabled?: boolean;
   linkBefore?: {
     href: string;
@@ -19,8 +19,8 @@ const CheckBox = (props: CheckBoxProps) => {
     <div className="flex items-center">
       <input
         type="checkbox"
-        id={props.label}
-        value={props.value}
+        id={props.name}
+        name={props.name} 
         checked={props.isChecked}
         disabled={props.disabled}
         onChange={props.onChange}

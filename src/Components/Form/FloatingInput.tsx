@@ -21,14 +21,14 @@ const FloatingInput = (props: InputProps) => {
         id={props.name}
         value={props.value}
         disabled={props.disabled}
-        className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
+        className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b ${
           props.error ? "border-red-500" : "border-gray-300"
         } appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
         placeholder=" "
         required={props.required}
         onChange={props.onChange}
         aria-invalid={props.error}
-        aria-describedby={props.helperText ? `${name}-helper-text` : undefined}
+        aria-describedby={props.helperText ? `${props.name}-helper-text` : undefined}
       />
       <label
         htmlFor={props.name}
@@ -38,12 +38,12 @@ const FloatingInput = (props: InputProps) => {
                     peer-focus:scale-75 peer-focus:-translate-y-6 
                     peer-focus:text-blue-600 peer-focus:dark:text-blue-500"
       >
-        {props.label} {props.required && <span aria-hidden="true">*</span>}
+        {props.label}
       </label>
       {props.helperText && props.helperText?.length > 0 && (
         <p
           id="helper-text-explanation"
-          className="mt-2 text-sm text-gray-500 dark:text-gray-400"
+          className="mt-2 text-sm text-gray-400 dark:text-gray-400"
         >
           {props.helperText}
         </p>

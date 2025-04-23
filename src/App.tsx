@@ -4,6 +4,8 @@ import Button from "./Components/Divers/Button";
 import FloatingInput from "./Components/Form/FloatingInput";
 import { SelectBox, SelectOption } from "./Components/Form/SelectBox";
 import CheckBox from "./Components/Form/CheckBox";
+import Modal from "./Components/Divers/Modal";
+import CategoryForm from "./Components/Form/CategoryForm";
 
 function App() {
   // Floating input
@@ -42,6 +44,10 @@ function App() {
     alert("Bouton cliqué !");
   };
 
+  //Modal
+  const [visible, setVisible] = useState(false);
+  const closeModal = () => setVisible(false);
+
   return (
     <>
       <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
@@ -69,8 +75,9 @@ function App() {
               options={options}
               value={value}
               onChange={handleSelectChange}
-              name={"music"} 
-              label={"Musique"}            />
+              name={"music"}
+              label={"Musique"}
+            />
             {value && (
               <p className="text-xs">Id musique sélectionnée {value}</p>
             )}
@@ -80,7 +87,7 @@ function App() {
               onChange={handleCBChange}
               isChecked={isChecked}
               label="J'accepte les"
-              value={"cgv"}
+              name={"cgv"}
               linkAfter={{
                 href: "url/conditions-generales",
                 text: "conditions générales d'utilisation",
@@ -90,6 +97,18 @@ function App() {
         </div>
         <Button label={"Bouton test"} onClick={handleClick}></Button>
       </form>
+
+      {/* Modal */}
+      <br />
+      <Button label={"Bouton Modal"} onClick={() => setVisible(true)}></Button>
+      <Modal
+        position="center"
+        isOpen={visible}
+        onClose={() => setVisible(false)}
+        dismissable={false}
+      >
+        <CategoryForm onSubmit={closeModal}></CategoryForm>
+      </Modal>
     </>
   );
 }
