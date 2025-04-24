@@ -4,8 +4,7 @@ import Button from "./Components/Divers/Button";
 import FloatingInput from "./Components/Form/FloatingInput";
 import { SelectBox, SelectOption } from "./Components/Form/SelectBox";
 import CheckBox from "./Components/Form/CheckBox";
-import Modal from "./Components/Divers/Modal";
-import CategoryForm from "./Components/Form/CategoryForm";
+import CategoriesList from "./Components/Categorie/CategoriesList";
 
 function App() {
   // Floating input
@@ -43,10 +42,6 @@ function App() {
   const handleClick = () => {
     alert("Bouton cliqué !");
   };
-
-  //Modal
-  const [visible, setVisible] = useState(false);
-  const closeModal = () => setVisible(false);
 
   return (
     <>
@@ -98,17 +93,8 @@ function App() {
         <Button label={"Bouton test"} onClick={handleClick}></Button>
       </form>
 
-      {/* Modal */}
-      <br />
-      <Button label={"Bouton Modal"} onClick={() => setVisible(true)}></Button>
-      <Modal
-        position="center"
-        isOpen={visible}
-        onClose={() => setVisible(false)}
-        dismissable={false}
-      >
-        <CategoryForm onSubmit={closeModal}></CategoryForm>
-      </Modal>
+      {/* Liste des catégories */}
+      <CategoriesList></CategoriesList>
     </>
   );
 }
