@@ -3,13 +3,13 @@ import FloatingInput from "../Form/FloatingInput";
 import Button from "../Divers/Button";
 import { FaSave } from "react-icons/fa";
 import CheckBox from "../Form/CheckBox";
-import { RessourceCategorie } from "../../types/RessourceCategorie";
+import { IRessourceCategorie } from "../../types/RessourceCategorie";
 import { post, put } from "../../api/apiClient";
 import { ApiResponse } from "../../api/ApiResponse";
 
 interface CategoryFormProps {
   onSubmit: (success: boolean) => void;
-  ressourceCategorie: RessourceCategorie;
+  ressourceCategorie: IRessourceCategorie;
 }
 
 const CategoryForm = (props: CategoryFormProps) => {
@@ -41,13 +41,13 @@ const CategoryForm = (props: CategoryFormProps) => {
 
     let response;
     if (props.ressourceCategorie.id === 0) {
-      response = await post<typeof payload, ApiResponse<RessourceCategorie>>(
+      response = await post<typeof payload, ApiResponse<IRessourceCategorie>>(
         "ressource_categories",
         payload
       );
     } else {
       //Pb sur put à revoir
-      response = await put<typeof payload, ApiResponse<RessourceCategorie>>(
+      response = await put<typeof payload, ApiResponse<IRessourceCategorie>>(
         "ressource_categories",
         payload
       );

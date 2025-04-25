@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { get } from "../../api/apiClient";
 import { ApiResponse } from "../../api/ApiResponse";
-import { RessourceCategorie } from "../../types/RessourceCategorie";
+import { IRessourceCategorie } from "../../types/RessourceCategorie";
 import { FaCheckCircle } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 import { CiEdit } from "react-icons/ci";
@@ -10,12 +10,12 @@ import Modal from "../Divers/Modal";
 import CategoryForm from "./CategoryForm";
 
 const CategoriesList = () => {
-  const [categories, setCategories] = useState<RessourceCategorie[]>([]);
+  const [categories, setCategories] = useState<IRessourceCategorie[]>([]);
   const [visible, setVisible] = useState(false);
-  const [selectedCategorie, setSelectedCategorie] = useState<RessourceCategorie | null>(null);
+  const [selectedCategorie, setSelectedCategorie] = useState<IRessourceCategorie | null>(null);
 
   const getAllCategories = async () => {
-    const response = await get<ApiResponse<RessourceCategorie[]>>("ressource_categories");
+    const response = await get<ApiResponse<IRessourceCategorie[]>>("ressource_categories");
     if (response?.status && response.data) {
       setCategories(response.data);
     }
