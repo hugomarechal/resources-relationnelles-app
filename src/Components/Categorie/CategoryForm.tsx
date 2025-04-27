@@ -23,7 +23,6 @@ const CategoryForm = (props: CategoryFormProps) => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    console.log({ name, value, type, checked });
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -46,11 +45,11 @@ const CategoryForm = (props: CategoryFormProps) => {
         payload
       );
     } else {
-      //Pb sur put à revoir
-      response = await put<typeof payload, ApiResponse<IRessourceCategorie>>(
-        "ressource_categories",
-        payload
-      );
+      // Pb update
+      // response = await put<typeof payload, ApiResponse<IRessourceCategorie>>(
+      //   `ressource_categories/${payload.id}`,
+      //   payload
+      // );
     }
 
     if (response?.status) {
