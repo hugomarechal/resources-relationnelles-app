@@ -1,17 +1,22 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { get } from "../../api/apiClient";
+import { del, get } from "../../api/apiClient";
 import { ApiResponse } from "../../api/ApiResponse";
 import { IRessourceCategorie } from "../../types/RessourceCategorie";
 import { FaCheckCircle } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
-import { CiEdit } from "react-icons/ci";
 import Button from "../Divers/Button";
 import Modal from "../Divers/Modal";
 import CategoryForm from "./CategoryForm";
 import SearchInput from "../Divers/SearchInput";
 import Toast from "../Divers/Toast";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import ConfirmMessage from "../Divers/ConfirmMessage";
 
-const CategoriesList = () => {
+interface CategoriesListProps {
+  refreshCategories: boolean;
+}
+
+const CategoriesList = (props: CategoriesListProps) => {
   // Tableau de catégories
   const [allCategories, setCategories] = useState<IRessourceCategorie[]>([]);
   const [selectedCategorie, setSelectedCategorie] =
@@ -26,9 +31,19 @@ const CategoriesList = () => {
     }
   };
 
+  // Supprimer une catégorie
+  const deleteCategory = async (id: number) => {
+    const response = await del<ApiResponse<null>>(`ressource_categories/${id}`);
+    if (response?.status) {
+      getAllCategories();
+    } else {
+      setToastMessage("Erreur lors de la suppression de la catégorie");
+    }
+  };
+
   useEffect(() => {
     getAllCategories();
-  }, []);
+  }, [props.refreshCategories]);
 
   // Barre de recherche
   const [searchLibCategorie, setsearchLibCategorie] = useState("");
@@ -43,15 +58,26 @@ const CategoriesList = () => {
       .includes(searchLibCategorie.toLowerCase())
   );
 
-  //Modal création/modification
-  const [visible, setVisible] = useState(false);
+  //Modal modification
+  const [modalFormVisible, setModalFormVisible] = useState(false);
+
+  // Modal confirmation suppression
+  const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
+  const handleConfirmation = (confirmed: boolean) => {
+    if (confirmed && selectedCategorie) {
+      deleteCategory(selectedCategorie.id);
+    }
+    setModalConfirmVisible(false);
+  };
+
+  // Toast en cas d'erreur http
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   return (
     <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         {/* Barre de recherche */}
-        <div className="mt-2 mr-0 mb-4 ml-2">
+        <div className="mt-1 mr-0 mb-4 ml-2">
           <SearchInput
             placeholder={"Chercher une catégorie"}
             onChange={handleSearchInputChange}
@@ -69,10 +95,14 @@ const CategoriesList = () => {
                 Actif
               </th>
               <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Edit</span>
+                <span className="sr-only">Modifier</span>
+              </th>
+              <th scope="col" className="px-6 py-3">
+                <span className="sr-only">Supprimer</span>
               </th>
             </tr>
           </thead>
+
           <tbody>
             {filteredCategories.map((categorie) => (
               <tr
@@ -83,7 +113,7 @@ const CategoriesList = () => {
                   {categorie.lib_ressource_categorie}
                 </td>
                 <td className="px-6 py-4">
-                  {!categorie.visible ? (
+                  {categorie.visible ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
                     <RxCrossCircled className="text-red-500" />
@@ -91,12 +121,24 @@ const CategoriesList = () => {
                 </td>
                 <td className="px-6 py-4 text-right">
                   <Button
-                    icon={<CiEdit size={20} />}
+                    icon={<MdModeEdit size={25} />}
                     label=""
                     onClick={() => {
                       if (categorie) {
                         setSelectedCategorie(categorie);
-                        setVisible(true);
+                        setModalFormVisible(true);
+                      }
+                    }}
+                  />
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <Button
+                    icon={<MdDelete size={20} />}
+                    label=""
+                    onClick={() => {
+                      if (categorie) {
+                        setSelectedCategorie(categorie);
+                        setModalConfirmVisible(true);
                       }
                     }}
                   />
@@ -107,10 +149,11 @@ const CategoriesList = () => {
         </table>
       </div>
 
-      {visible && selectedCategorie && (
+      {/* Modal modification */}
+      {modalFormVisible && selectedCategorie && (
         <Modal
-          isOpen={visible}
-          onClose={() => setVisible(false)}
+          isOpen={modalFormVisible}
+          onClose={() => setModalFormVisible(false)}
           dismissable={true}
           position="center"
         >
@@ -118,17 +161,34 @@ const CategoriesList = () => {
             ressourceCategorie={selectedCategorie}
             onSubmit={(success) => {
               if (success) {
-                setVisible(false);
+                setModalFormVisible(false);
                 getAllCategories();
               } else {
-                setToastMessage("Erreur lors de l'enregistrement"); // ✅
+                setToastMessage("Erreur lors de l'enregistrement");
               }
             }}
           />
         </Modal>
       )}
 
-      {toastMessage && <Toast type="danger" text={toastMessage} />}
+      {modalConfirmVisible && selectedCategorie && (
+        <Modal
+          isOpen={modalConfirmVisible}
+          onClose={() => setModalConfirmVisible(false)}
+          dismissable={true}
+          position="center"
+        >
+          <ConfirmMessage
+            confirmationMessage="Êtes-vous sûr de vouloir supprimer cette catégorie ?"
+            onConfirm={handleConfirmation}
+          />
+        </Modal>
+      )}
+
+      {/* Visibilité toast en cas d'erreur http */}
+      {toastMessage && (
+        <Toast type="danger" text={toastMessage} autoClose={true} />
+      )}
     </>
   );
 };

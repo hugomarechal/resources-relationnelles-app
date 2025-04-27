@@ -11,14 +11,13 @@ interface CategoryFormProps {
   onSubmit: (success: boolean) => void;
   ressourceCategorie: IRessourceCategorie;
 }
-
 const CategoryForm = (props: CategoryFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     lib_ressource_categorie:
       props.ressourceCategorie?.lib_ressource_categorie || "",
-    visible: props.ressourceCategorie?.visible ?? true,
+    visible: props.ressourceCategorie?.visible,
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +27,7 @@ const CategoryForm = (props: CategoryFormProps) => {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
+  //order by ordre alphabetique
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -45,14 +44,14 @@ const CategoryForm = (props: CategoryFormProps) => {
         payload
       );
     } else {
-      // Pb update
-      // response = await put<typeof payload, ApiResponse<IRessourceCategorie>>(
-      //   `ressource_categories/${payload.id}`,
-      //   payload
-      // );
+      response = await put<typeof payload, ApiResponse<IRessourceCategorie>>(
+        `ressource_categories/${props.ressourceCategorie.id}`,
+        payload
+      );
     }
 
     if (response?.status) {
+      console.log(response.data);
       setFormData({
         lib_ressource_categorie:
           props.ressourceCategorie.lib_ressource_categorie,
@@ -60,7 +59,6 @@ const CategoryForm = (props: CategoryFormProps) => {
       });
       props.onSubmit(true);
     } else {
-      console.error("Échec de l'enregistrement");
       props.onSubmit(false);
     }
     setLoading(false);

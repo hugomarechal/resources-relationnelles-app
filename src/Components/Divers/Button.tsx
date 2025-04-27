@@ -21,17 +21,28 @@ const Button = (props: ButtonProps) => {
         bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl
         focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800
         disabled:opacity-90 disabled:cursor-not-allowed disabled:from-purple-400 disabled:to-blue-400
-        ${hasLabel ? "px-5 py-2.5" : "p-2 w-10 h-10"}
+        ${
+          hasLabel ? "px-5 py-2.5" : "p-2 w-10 h-10"
+        } // Ajuste padding en fonction de l'icône ou du label
       `}
     >
-      {props.icon}
+      {/* Affiche l'icône si elle est présente, avec un espacement adapté */}
+      {props.icon && (
+        <span className={`${hasLabel ? "mr-2" : ""}`}>{props.icon}</span>
+      )}
+
+      {/* Affiche le label et le spinner si le bouton est en mode "loading" */}
       {hasLabel && (
-        <span className="inline-flex items-center ml-2">
+        <span className="inline-flex items-center">
           {props.label}
           {props.loading && <FaSpinner className="animate-spin w-4 h-4 ml-2" />}
         </span>
       )}
-      {!hasLabel && props.loading && <FaSpinner className="animate-spin w-4 h-4 ml-2" />}
+
+      {/* Affiche uniquement le spinner si le bouton est en mode "loading" et qu'il n'y a pas de label */}
+      {!hasLabel && props.loading && (
+        <FaSpinner className="animate-spin w-4 h-4" />
+      )}
     </button>
   );
 };
