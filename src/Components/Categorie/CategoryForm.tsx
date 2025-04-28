@@ -13,6 +13,7 @@ interface CategoryFormProps {
 }
 const CategoryForm = (props: CategoryFormProps) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     lib_ressource_categorie:
@@ -27,10 +28,22 @@ const CategoryForm = (props: CategoryFormProps) => {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-  //order by ordre alphabetique
-  const handleSubmit = async () => {
-    setLoading(true);
 
+  const handleSubmit = async () => {
+    //Validation des données
+    if (!formData.lib_ressource_categorie.trim()) {
+      setError("Le libellé est requis.");
+      return;
+    }
+
+    if (formData.lib_ressource_categorie.length > 50) {
+      setError("Le libellé ne doit pas dépasser 50 caractères.");
+      return;
+    }
+
+    //Enregistrement des données
+    setError("");
+    setLoading(true);
     const payload = {
       id: props.ressourceCategorie.id,
       lib_ressource_categorie: formData.lib_ressource_categorie,
@@ -49,9 +62,7 @@ const CategoryForm = (props: CategoryFormProps) => {
         payload
       );
     }
-
     if (response?.status) {
-      console.log(response.data);
       setFormData({
         lib_ressource_categorie:
           props.ressourceCategorie.lib_ressource_categorie,
@@ -87,7 +98,13 @@ const CategoryForm = (props: CategoryFormProps) => {
               name={"lib_ressource_categorie"}
               required={true}
               onChange={handleInputChange}
+              error={formData.lib_ressource_categorie === ""}
             ></FloatingInput>
+            {error && (
+              <strong id="title-error" role="alert">
+                {error}
+              </strong>
+            )}
           </div>
           <div className="col-span-2 mb-5">
             <CheckBox

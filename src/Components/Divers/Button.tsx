@@ -6,24 +6,38 @@ interface ButtonProps {
   disabled?: boolean;
   icon?: React.ReactNode;
   loading?: boolean;
+  color?: "blue" | "red" | "green";
 }
 
 const Button = (props: ButtonProps) => {
   const hasLabel = !!props.label;
-
+  const colorClass = {
+    blue: {
+      gradient: "bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700",
+      focus: "focus:ring-blue-300 dark:focus:ring-blue-800",
+    },
+    red: {
+      gradient: "bg-gradient-to-r from-red-500 via-red-600 to-red-700",
+      focus: "focus:ring-red-300 dark:focus:ring-red-800",
+    },
+    green: {
+      gradient: "bg-gradient-to-r from-green-500 via-green-600 to-green-700",
+      focus: "focus:ring-green-300 dark:focus:ring-green-800",
+    }
+  };
+  
   return (
     <button
       onClick={props.onClick}
       type="button"
       disabled={props.disabled}
       className={`
-        inline-flex items-center justify-center font-medium rounded-lg text-sm text-white text-center
-        bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl
-        focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800
-        disabled:opacity-90 disabled:cursor-not-allowed disabled:from-purple-400 disabled:to-blue-400
-        ${
-          hasLabel ? "px-5 py-2.5" : "p-2 w-10 h-10"
-        } // Ajuste padding en fonction de l'icône ou du label
+        inline-flex items-center justify-center font-medium rounded-lg text-sm 
+        text-white ${colorClass[props.color ?? "blue"].gradient}
+        hover:bg-gradient-to-br 
+        focus:ring-4 focus:outline-none ${colorClass[props.color ?? "blue"].focus}
+        disabled:opacity-90 disabled:cursor-not-allowed
+        ${hasLabel ? "px-5 py-2.5" : "p-2 w-10 h-10"}
       `}
     >
       {/* Affiche l'icône si elle est présente, avec un espacement adapté */}

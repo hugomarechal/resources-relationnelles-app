@@ -10,15 +10,16 @@ import CategoryForm from "./CategoryForm";
 import SearchInput from "../Divers/SearchInput";
 import Toast from "../Divers/Toast";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import ConfirmMessage from "../Divers/ConfirmMessage";
+import ConfirmModal from "../Divers/ConfirmModal";
 
 interface CategoriesListProps {
   refreshCategories: boolean;
 }
 
 const CategoriesList = (props: CategoriesListProps) => {
-  // Tableau de catégories
+  // Liste des catégories
   const [allCategories, setCategories] = useState<IRessourceCategorie[]>([]);
+
   const [selectedCategorie, setSelectedCategorie] =
     useState<IRessourceCategorie | null>(null);
 
@@ -41,17 +42,11 @@ const CategoriesList = (props: CategoriesListProps) => {
     }
   };
 
-  useEffect(() => {
-    getAllCategories();
-  }, [props.refreshCategories]);
-
-  // Barre de recherche
+  // Recherche d'une catégorie
   const [searchLibCategorie, setsearchLibCategorie] = useState("");
-
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setsearchLibCategorie(e.target.value);
   };
-
   const filteredCategories = allCategories.filter((cat) =>
     cat.lib_ressource_categorie
       .toLowerCase()
@@ -69,6 +64,11 @@ const CategoriesList = (props: CategoriesListProps) => {
     }
     setModalConfirmVisible(false);
   };
+
+  //Mise à jour de la liste des catégories
+  useEffect(() => {
+    getAllCategories();
+  }, [props.refreshCategories]);
 
   // Toast en cas d'erreur http
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -149,7 +149,7 @@ const CategoriesList = (props: CategoriesListProps) => {
         </table>
       </div>
 
-      {/* Modal modification */}
+      {/* Modal formulaire modification */}
       {modalFormVisible && selectedCategorie && (
         <Modal
           isOpen={modalFormVisible}
@@ -171,19 +171,13 @@ const CategoriesList = (props: CategoriesListProps) => {
         </Modal>
       )}
 
-      {modalConfirmVisible && selectedCategorie && (
-        <Modal
-          isOpen={modalConfirmVisible}
-          onClose={() => setModalConfirmVisible(false)}
-          dismissable={true}
-          position="center"
-        >
-          <ConfirmMessage
-            confirmationMessage="Êtes-vous sûr de vouloir supprimer cette catégorie ?"
-            onConfirm={handleConfirmation}
-          />
-        </Modal>
-      )}
+      {/* Modal confirmation suppression */}
+      <ConfirmModal
+        isOpen={modalConfirmVisible}
+        onClose={() => setModalConfirmVisible(false)}
+        message="Êtes-vous sûr de vouloir supprimer cette catégorie ?"
+        onConfirm={handleConfirmation}
+      />
 
       {/* Visibilité toast en cas d'erreur http */}
       {toastMessage && (

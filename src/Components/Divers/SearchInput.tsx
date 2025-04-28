@@ -2,8 +2,8 @@ import { ChangeEvent } from "react";
 import { FiSearch } from "react-icons/fi";
 
 interface SearchInputProps {
-    placeholder: string;
-    value: string;
+  placeholder: string;
+  value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 

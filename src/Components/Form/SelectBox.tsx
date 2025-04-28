@@ -47,7 +47,7 @@ const SelectBox = (props: SelectProps) => {
       {props.helperText && props.helperText?.length > 0 && (
         <p
           id="helper-text-explanation"
-          className="mt-2 text-sm text-gray-500 dark:text-gray-400"
+          className="mt-2 text-sm text-gray-400 dark:text-gray-400 text-left"
         >
           {props.helperText}
         </p>
