@@ -43,9 +43,9 @@ const CategoriesList = (props: CategoriesListProps) => {
   };
 
   // Recherche d'une catégorie
-  const [searchLibCategorie, setsearchLibCategorie] = useState("");
+  const [searchLibCategorie, setSearchLibCategorie] = useState("");
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setsearchLibCategorie(e.target.value);
+    setSearchLibCategorie(e.target.value);
   };
   const filteredCategories = allCategories.filter((cat) =>
     cat.lib_ressource_categorie

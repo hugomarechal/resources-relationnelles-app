@@ -1,5 +1,5 @@
 export interface IRessourceType {
     id: number;
-    lib_relation_type: string;
+    lib_ressource_type: string;
     visible: boolean;
 }

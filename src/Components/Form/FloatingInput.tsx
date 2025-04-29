@@ -44,13 +44,14 @@ const FloatingInput = (props: InputProps) => {
       >
         {props.label}
       </label>
+
       {props.helperText && props.helperText?.length > 0 && (
         <p
-        id="helper-text-explanation"
-        className="mt-2 text-sm text-gray-400 dark:text-gray-400 text-left"
-      >
-        {props.helperText}
-      </p>
+          id="helper-text-explanation"
+          className="mt-2 text-sm text-gray-400 dark:text-gray-400 text-left"
+        >
+          {props.helperText}
+        </p>
       )}
     </div>
   );

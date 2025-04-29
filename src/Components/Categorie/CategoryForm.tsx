@@ -11,6 +11,7 @@ interface CategoryFormProps {
   onSubmit: (success: boolean) => void;
   ressourceCategorie: IRessourceCategorie;
 }
+
 const CategoryForm = (props: CategoryFormProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,7 +22,7 @@ const CategoryForm = (props: CategoryFormProps) => {
     visible: props.ressourceCategorie?.visible,
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -30,6 +31,7 @@ const CategoryForm = (props: CategoryFormProps) => {
   };
 
   const handleSubmit = async () => {
+    console.log("handleSubmit", formData);
     //Validation des données
     if (!formData.lib_ressource_categorie.trim()) {
       setError("Le libellé est requis.");
@@ -62,18 +64,13 @@ const CategoryForm = (props: CategoryFormProps) => {
         payload
       );
     }
-    if (response?.status) {
-      setFormData({
-        lib_ressource_categorie:
-          props.ressourceCategorie.lib_ressource_categorie,
-        visible: props.ressourceCategorie.visible,
-      });
-      props.onSubmit(true);
-    } else {
-      props.onSubmit(false);
-    }
+    props.onSubmit(!!response?.status);
     setLoading(false);
   };
+
+  const isFormInvalid =
+    !formData.lib_ressource_categorie.trim() ||
+    formData.lib_ressource_categorie.trim().length > 50;
 
   return (
     <>
@@ -97,7 +94,7 @@ const CategoryForm = (props: CategoryFormProps) => {
               value={formData.lib_ressource_categorie}
               name={"lib_ressource_categorie"}
               required={true}
-              onChange={handleInputChange}
+              onChange={handleFormChange}
               error={formData.lib_ressource_categorie === ""}
             ></FloatingInput>
             {error && (
@@ -108,7 +105,7 @@ const CategoryForm = (props: CategoryFormProps) => {
           </div>
           <div className="col-span-2 mb-5">
             <CheckBox
-              onChange={handleInputChange}
+              onChange={handleFormChange}
               isChecked={formData.visible}
               label="Visible"
               name={"visible"}
@@ -116,11 +113,23 @@ const CategoryForm = (props: CategoryFormProps) => {
           </div>
         </div>
 
+        <div>
+          {error && (
+            <strong
+              id="title-error"
+              role="alert"
+              className="text-red-500 mt-4 mb-4"
+            >
+              {error}
+            </strong>
+          )}
+        </div>
+
         <Button
           label={"Enregistrer"}
           loading={loading}
           onClick={handleSubmit}
-          disabled={!formData.lib_ressource_categorie.trim() || loading}
+          disabled={isFormInvalid || loading}
           icon={<FaSave className="w-4 h-4 mr-2" />}
         ></Button>
       </div>

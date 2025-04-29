@@ -13,7 +13,7 @@ export interface IRessource {
     valide: boolean;
 
     user: IUser;
-    categorie: IRessourceCategorie;
+    ressource_categorie: IRessourceCategorie;
     ressource_type: IRessourceType;
     relation_type: IRelationType;
 }
