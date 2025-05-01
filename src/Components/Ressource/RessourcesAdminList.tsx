@@ -144,8 +144,8 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   ];
 
   const valideOptions: ISelectBoxOption[] = [
-    { label: "Validée", value: "0" },
-    { label: "Non validée", value: "1" },
+    { label: "Validées", value: "0" },
+    { label: "Non validées", value: "1" },
     { label: "Tout type de validation", value: "-1" },
   ];
 
