@@ -102,7 +102,7 @@ const ManageRessources = () => {
   return (
     <>
       <h3 className="text-3xl font-bold dark:text-white mt-4 mb-5">
-        Gestion des ressources à valider
+        Gestion des ressources
       </h3>
       <Button
         icon={<FaPlus size={20} />}

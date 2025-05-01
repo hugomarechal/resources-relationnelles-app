@@ -23,7 +23,6 @@ interface CategoryFormProps {
 
 const RessourceForm = (props: CategoryFormProps) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
   const ressourceInput = {
@@ -128,7 +127,6 @@ const RessourceForm = (props: CategoryFormProps) => {
     if (hasError) return;
 
     //Enregistrement des données
-    setError("");
     setLoading(true);
     const payload = {
       titre: formData.titre,
@@ -196,9 +194,9 @@ const RessourceForm = (props: CategoryFormProps) => {
               required={true}
             />
             {fieldErrors.ressource_categorie_id && (
-              <strong className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm">
                 {fieldErrors.ressource_categorie_id}
-              </strong>
+              </p>
             )}
           </div>
 
@@ -286,18 +284,6 @@ const RessourceForm = (props: CategoryFormProps) => {
             />
           </div>
           {/* Pour admin */}
-        </div>
-
-        <div>
-          {error && (
-            <strong
-              id="title-error"
-              role="alert"
-              className="text-red-500 mt-4 mb-4"
-            >
-              {error}
-            </strong>
-          )}
         </div>
 
         <div>

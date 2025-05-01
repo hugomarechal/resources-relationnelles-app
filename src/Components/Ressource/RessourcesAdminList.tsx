@@ -25,7 +25,9 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
     null
   );
   const getRessourcesToValidate = async () => {
-    const response = await get<ApiResponse<IRessource[]>>("ressources"+"?valide=0");
+    const response = await get<ApiResponse<IRessource[]>>(
+      "ressources" + "?valide=0"
+    );
     if (response?.status && response.data) {
       setRessources(response.data);
     }
@@ -104,7 +106,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
         {/* Barre de recherche */}
         <div className="mt-1 mr-0 mb-4 ml-2">
           <SearchInput
-            placeholder={"Chercher un titre de ressource"}
+            placeholder={"Chercher par titre"}
             onChange={handleSearchInputChange}
             value={searchTitreRessource}
           />
@@ -113,9 +115,6 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                Créateur
-              </th>
               <th scope="col" className="px-6 py-3">
                 titre
               </th>
@@ -140,9 +139,6 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
                 key={ressource.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {ressource.user.pseudo}
-                </td>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {ressource.titre}
                 </td>
@@ -212,7 +208,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
       <ConfirmModal
         isOpen={modalConfirmVisible}
         onClose={() => setModalConfirmVisible(false)}
-        message="Êtes-vous sûr de vouloir supprimer cette catégorie ?"
+        message="Êtes-vous sûr de vouloir supprimer cette ressource ?"
         onConfirm={handleConfirmation}
       />
 
