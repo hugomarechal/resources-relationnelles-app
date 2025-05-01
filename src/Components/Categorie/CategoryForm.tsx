@@ -27,8 +27,8 @@ const CategoryForm = (props: CategoryFormProps) => {
     if (!valueTrim) {
       return "Le libellé est requis.";
     }
-    if (valueTrim.length > 5) {
-      return "Le libellé ne doit pas dépasser 5 caractères.";
+    if (valueTrim.length > 50) {
+      return "Le libellé ne doit pas dépasser 50 caractères.";
     }
     return "";
   };
