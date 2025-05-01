@@ -10,8 +10,9 @@ import TextArea from "../Form/TextArea";
 import { IUser } from "../../types/User";
 import { IRelationType } from "../../types/RelationType";
 import { IRessourceCategorie } from "../../types/RessourceCategorie";
-import { SelectBox, SelectOption } from "../Form/SelectBox";
+import { SelectBox } from "../Form/SelectBox";
 import { formatStringDate } from "../services/utils";
+import { ISelectBoxOption } from "../../types/SelectBoxOption";
 
 interface CategoryFormProps {
   onSubmit: (success: boolean) => void;
@@ -43,7 +44,7 @@ const RessourceForm = (props: CategoryFormProps) => {
     ...ressourceInput,
   });
 
-  const categorieOptions: SelectOption[] = [
+  const categorieOptions: ISelectBoxOption[] = [
     { label: "Sélectionner une catégorie", value: "0" },
     ...props.categoriesTypes.map((categorie) => ({
       label: categorie.lib_ressource_categorie,
@@ -51,7 +52,7 @@ const RessourceForm = (props: CategoryFormProps) => {
     })),
   ];
 
-  const relationTypesOptions: SelectOption[] = [
+  const relationTypesOptions: ISelectBoxOption[] = [
     { label: "Sélectionner un type de relation", value: "0" },
     ...props.relationTypes.map((relation) => ({
       label: relation.lib_relation_type,

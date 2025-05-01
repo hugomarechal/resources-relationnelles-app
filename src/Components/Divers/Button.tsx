@@ -6,7 +6,7 @@ interface ButtonProps {
   disabled?: boolean;
   icon?: React.ReactNode;
   loading?: boolean;
-  color?: "blue" | "red" | "green";
+  color?: "blue" | "red" | "green" | "gray";
 }
 
 const Button = (props: ButtonProps) => {
@@ -23,9 +23,13 @@ const Button = (props: ButtonProps) => {
     green: {
       gradient: "bg-gradient-to-r from-green-500 via-green-600 to-green-700",
       focus: "focus:ring-green-300 dark:focus:ring-green-800",
-    }
+    },
+    gray: {
+      gradient: "bg-gradient-to-r from-gray-300 via-gray-400 to-gray-500",
+      focus: "focus:ring-gray-300 dark:focus:ring-gray-500",
+    },
   };
-  
+
   return (
     <button
       onClick={props.onClick}
@@ -35,7 +39,9 @@ const Button = (props: ButtonProps) => {
         inline-flex items-center justify-center font-medium rounded-lg text-sm 
         text-white ${colorClass[props.color ?? "blue"].gradient}
         hover:bg-gradient-to-br 
-        focus:ring-4 focus:outline-none ${colorClass[props.color ?? "blue"].focus}
+        focus:ring-4 focus:outline-none ${
+          colorClass[props.color ?? "blue"].focus
+        }
         disabled:opacity-90 disabled:cursor-not-allowed
         ${hasLabel ? "px-5 py-2.5" : "p-2 w-10 h-10"}
       `}

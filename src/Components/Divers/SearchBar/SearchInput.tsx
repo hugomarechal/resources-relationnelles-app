@@ -2,6 +2,7 @@ import { ChangeEvent } from "react";
 import { FiSearch } from "react-icons/fi";
 
 interface SearchInputProps {
+  name: string;
   placeholder: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -10,7 +11,7 @@ interface SearchInputProps {
 const SearchInput = (props: SearchInputProps) => {
   return (
     <>
-      <label htmlFor="table-search" className="sr-only">
+      <label htmlFor={props.name} className="sr-only">
         Recherche
       </label>
       <div className="relative">
@@ -18,6 +19,7 @@ const SearchInput = (props: SearchInputProps) => {
           <FiSearch color="gray" />
         </div>
         <input
+          name={props.name}
           type="text"
           id="table-search"
           className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 

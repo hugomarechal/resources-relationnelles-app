@@ -7,7 +7,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import Button from "../Divers/Button";
 import Modal from "../Divers/Modal";
 import CategoryForm from "./CategoryForm";
-import SearchInput from "../Divers/SearchInput";
+import SearchInput from "../Divers/SearchBar/SearchInput";
 import Toast from "../Divers/Toast";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import ConfirmModal from "../Divers/ConfirmModal";
@@ -81,8 +81,8 @@ const CategoriesList = (props: CategoriesListProps) => {
           <SearchInput
             placeholder={"Chercher une catégorie"}
             onChange={handleSearchInputChange}
-            value={searchLibCategorie}
-          />
+            value={searchLibCategorie} 
+            name={"search_categorie"}          />
         </div>
         {/* Liste des catégories */}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -109,7 +109,7 @@ const CategoriesList = (props: CategoriesListProps) => {
                 key={categorie.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                   {categorie.lib_ressource_categorie}
                 </td>
                 <td className="px-6 py-4">

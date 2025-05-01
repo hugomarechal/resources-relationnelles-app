@@ -1,12 +1,8 @@
 import { ChangeEvent } from "react";
-
-type SelectOption = {
-  label: string;
-  value: string;
-};
+import { ISelectBoxOption } from "../../types/SelectBoxOption";
 
 interface SelectProps {
-  options: SelectOption[];
+  options: ISelectBoxOption[];
   label: string;
   value: string;
   name: string;
@@ -61,4 +57,3 @@ const SelectBox = (props: SelectProps) => {
 };
 
 export { SelectBox };
-export type { SelectOption };
