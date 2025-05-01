@@ -16,6 +16,8 @@ import SearchSelectBox from "../Divers/SearchBar/SearchSelectBox";
 import { ISelectBoxOption } from "../../types/SelectBoxOption";
 import { FaCheckCircle } from "react-icons/fa";
 import { RxCrossCircled, RxReset } from "react-icons/rx";
+import { GoPeople } from "react-icons/go";
+import ShareRessourceForm from "./ShareRessourceForm";
 
 interface RessourcesAdminListProps {
   refreshRessources: boolean;
@@ -74,9 +76,11 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   //Modal modification
   const [modalFormVisible, setModalFormVisible] = useState(false);
 
+  //Modal share ressource
+  const [modalShareRessource, setModalShareRessource] = useState(false);
+
   // Modal confirmation suppression
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
-
   const handleConfirmation = (confirmed: boolean) => {
     if (confirmed && selectedRessource) {
       deleteRessource(selectedRessource.id);
@@ -190,7 +194,11 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
             options={valideOptions}
           />
           <div className="gap-4">
-            <Button icon={<RxReset size={25} />} onClick={resetFilters} color="gray"/>
+            <Button
+              icon={<RxReset size={25} />}
+              onClick={resetFilters}
+              color="gray"
+            />
           </div>
         </div>
 
@@ -266,6 +274,18 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
                     }}
                   />
                 </td>
+                <td className="px-6 py-4 text-right">
+                  <Button
+                    icon={<GoPeople size={20} />}
+                    label="Partager"
+                    onClick={() => {
+                      if (ressource && ressource.user.id === props.user.id) {
+                        setSelectedRessource(ressource);
+                        setModalShareRessource(true);
+                      }
+                    }}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -309,6 +329,30 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
       {toastMessage && (
         <Toast type="danger" text={toastMessage} autoClose={true} />
       )}
+
+      {/* Modal partage */}
+      {modalShareRessource &&
+        selectedRessource &&
+        props.user.id === selectedRessource.user.id && (
+          <Modal
+            isOpen={modalShareRessource}
+            onClose={() => setModalShareRessource(false)}
+            dismissable={true}
+            position="center"
+          >
+            <ShareRessourceForm
+              ressource={selectedRessource}
+              user={props.user}
+              onSubmit={(success) => {
+                if (success) {
+                  setToastMessage("Ressource partagée avec succès");
+                } else {
+                  setToastMessage("Erreur lors de l'enregistrement");
+                }
+              }}
+            />
+          </Modal>
+        )}
     </>
   );
 };
