@@ -11,6 +11,7 @@ import { IUser } from "../../types/User";
 import { IRelationType } from "../../types/RelationType";
 import { IRessourceCategorie } from "../../types/RessourceCategorie";
 import { SelectBox, SelectOption } from "../Form/SelectBox";
+import { formatStringDate } from "../services/utils";
 
 interface CategoryFormProps {
   onSubmit: (success: boolean) => void;
@@ -23,6 +24,7 @@ interface CategoryFormProps {
 const RessourceForm = (props: CategoryFormProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
   const ressourceInput = {
     id: props.ressource?.id || 0,
@@ -43,7 +45,7 @@ const RessourceForm = (props: CategoryFormProps) => {
   });
 
   const categorieOptions: SelectOption[] = [
-    { label: "Selectionner une catégorie", value: "0" },
+    { label: "Sélectionner une catégorie", value: "0" },
     ...props.categoriesTypes.map((categorie) => ({
       label: categorie.lib_ressource_categorie,
       value: String(categorie.id),
@@ -51,12 +53,41 @@ const RessourceForm = (props: CategoryFormProps) => {
   ];
 
   const relationTypesOptions: SelectOption[] = [
-    { label: "Selectionner un type de relation", value: "0" },
+    { label: "Sélectionner un type de relation", value: "0" },
     ...props.relationTypes.map((relation) => ({
       label: relation.lib_relation_type,
       value: String(relation.id),
     })),
   ];
+
+  const validateField = (name: string, value: string) => {
+    if (name === "titre") {
+      if (!value.trim()) return "Le titre est requis.";
+      if (value.trim().length > 50)
+        return "Le titre ne doit pas dépasser 50 caractères.";
+    }
+    if (name === "description") {
+      if (!value.trim()) return "La description est requise.";
+      if (value.trim().length > 1000)
+        return "La description ne doit pas dépasser 1000 caractères.";
+    }
+    if (name === "url" && value.trim()) {
+      try {
+        new URL(value);
+        if (value.length > 255)
+          return "L'URL ne doit pas dépasser 255 caractères.";
+      } catch {
+        return "Le format d'URL n'est pas valide.";
+      }
+    }
+    if (name === "ressource_categorie_id") {
+      if (Number(value) === 0) return "La catégorie est requise.";
+    }
+    if (name === "relation_type_id") {
+      if (Number(value) === 0) return "Le type de relation est requis.";
+    }
+    return "";
+  };
 
   const handleFormChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -67,51 +98,34 @@ const RessourceForm = (props: CategoryFormProps) => {
       ...prev,
       [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
     }));
+
+    const errorMessage = validateField(name, String(value));
+    setFieldErrors((prev) => ({
+      ...prev,
+      [name]: errorMessage,
+    }));
   };
 
   const handleSubmit = async () => {
     //Validation des données
-    if (!formData.titre.trim()) {
-      setError("Le titre est requis.");
-      return;
-    }
-    if (formData.titre.length > 50) {
-      setError("Le titre ne doit pas dépasser 50 caractères.");
-      return;
-    }
+    const errors: { [key: string]: string } = {};
+    errors.titre = validateField("titre", formData.titre);
+    errors.description = validateField("description", formData.description);
+    errors.url = validateField("url", formData.url);
+    errors.ressource_categorie_id = validateField(
+      "ressource_categorie_id",
+      String(formData.ressource_categorie_id)
+    );
+    errors.relation_type_id = validateField(
+      "relation_type_id",
+      String(formData.relation_type_id)
+    );
 
-    if (!formData.description.trim()) {
-      setError("Le description est requise.");
-      return;
-    }
-    if (formData.description.length > 1000) {
-      setError("Le titre ne doit pas dépasser 1000 caractères.");
-      return;
-    }
+    setFieldErrors(errors);
 
-    if (formData.relation_type_id === 0) {
-      setError("Le type de relation est requis.");
-      return;
-    }
-
-    if (formData.ressource_categorie_id === 0) {
-      setError("La catégorie est requise.");
-      return;
-    }
-
-    if (formData.url.trim()) {
-      try {
-        console.log("Validating URL:", formData.url);
-        new URL(formData.url);
-      } catch {
-        setError("Le format d'URL n'est pas valide.");
-        return;
-      }
-      if (formData.url.length > 255) {
-        setError("L'URL ne doit pas dépasser 255 caractères.");
-        return;
-      }
-    }
+    // Vérifier s'il y a au moins une erreur
+    const hasError = Object.values(errors).some((err) => err);
+    if (hasError) return;
 
     //Enregistrement des données
     setError("");
@@ -145,13 +159,7 @@ const RessourceForm = (props: CategoryFormProps) => {
     setLoading(false);
   };
 
-  const isFormInvalid =
-    !formData.titre.trim() ||
-    formData.titre.trim().length > 50 ||
-    !formData.description.trim() ||
-    formData.description.trim().length > 1000 ||
-    formData.relation_type_id === 0 ||
-    formData.ressource_categorie_id === 0;
+  const isFormInvalid = Object.values(fieldErrors).some((err) => err);
 
   return (
     <>
@@ -166,8 +174,17 @@ const RessourceForm = (props: CategoryFormProps) => {
       </div>
 
       {/* Body */}
-      <div className="p-4 md:p-5 mt-5">
+      <div className="p-4 md:p-5 mt-1">
         <div className="grid gap-1 mb-4 grid-cols-2">
+          {props.ressource.id !== 0 && (
+            <div className="col-span-2 text-left mb-6 text-sm italic">
+              <span>
+                Créée par {props.ressource.user.pseudo}, le{" "}
+                {formatStringDate(props.ressource.created_at)}
+              </span>
+            </div>
+          )}
+
           <div className="col-span-2">
             <SelectBox
               options={categorieOptions}
@@ -175,9 +192,14 @@ const RessourceForm = (props: CategoryFormProps) => {
               value={String(formData.ressource_categorie_id)}
               name="ressource_categorie_id"
               onChange={handleFormChange}
-              error={formData.ressource_categorie_id === 0}
+              error={!!fieldErrors.ressource_categorie_id}
               required={true}
             />
+            {fieldErrors.ressource_categorie_id && (
+              <strong className="text-red-500 text-sm">
+                {fieldErrors.ressource_categorie_id}
+              </strong>
+            )}
           </div>
 
           <div className="col-span-2">
@@ -187,9 +209,14 @@ const RessourceForm = (props: CategoryFormProps) => {
               value={String(formData.relation_type_id)}
               name="relation_type_id"
               onChange={handleFormChange}
-              error={formData.relation_type_id === 0}
+              error={!!fieldErrors.relation_type_id}
               required={true}
             />
+            {fieldErrors.relation_type_id && (
+              <p className="text-red-500 text-sm mt-1">
+                {fieldErrors.relation_type_id}
+              </p>
+            )}
           </div>
 
           <div className="col-span-2">
@@ -200,8 +227,11 @@ const RessourceForm = (props: CategoryFormProps) => {
               name={"titre"}
               required={true}
               onChange={handleFormChange}
-              error={formData.titre === ""}
+              error={!!fieldErrors.titre}
             />
+            {fieldErrors.titre && (
+              <p className="text-red-500 text-sm mt-1">{fieldErrors.titre}</p>
+            )}
           </div>
 
           <div className="col-span-2">
@@ -214,8 +244,13 @@ const RessourceForm = (props: CategoryFormProps) => {
               required={true}
               maxLength={1000}
               rows={20}
-              error={formData.description === ""}
+              error={!!fieldErrors.description}
             />
+            {fieldErrors.description && (
+              <p className="text-red-500 text-sm mt-1">
+                {fieldErrors.description}
+              </p>
+            )}
           </div>
 
           <div className="col-span-2 mt-5">
@@ -225,8 +260,11 @@ const RessourceForm = (props: CategoryFormProps) => {
               value={formData.url}
               name={"url"}
               onChange={handleFormChange}
-              error={formData.url !== "" && !formData.url.startsWith("http")}
+              error={!!fieldErrors.url}
             />
+            {fieldErrors.url && (
+              <p className="text-red-500 text-sm mt-1">{fieldErrors.url}</p>
+            )}
           </div>
 
           <div className="col-span-2 mb-5">
@@ -252,7 +290,11 @@ const RessourceForm = (props: CategoryFormProps) => {
 
         <div>
           {error && (
-            <strong id="title-error" role="alert" className="text-red-500 mt-4 mb-4">
+            <strong
+              id="title-error"
+              role="alert"
+              className="text-red-500 mt-4 mb-4"
+            >
               {error}
             </strong>
           )}

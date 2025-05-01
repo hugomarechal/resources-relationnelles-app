@@ -10,6 +10,8 @@ import ConfirmModal from "../Divers/ConfirmModal";
 import { IRessource } from "../../types/Ressource";
 import RessourceForm from "./RessourceForm";
 import { IUser } from "../../types/User";
+import { IRelationType } from "../../types/RelationType";
+import { IRessourceCategorie } from "../../types/RessourceCategorie";
 
 interface RessourcesAdminListProps {
   refreshRessources: boolean;
@@ -22,8 +24,8 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   const [selectedRessource, setSelectedRessource] = useState<IRessource | null>(
     null
   );
-  const getAllRessources = async () => {
-    const response = await get<ApiResponse<IRessource[]>>("ressources");
+  const getRessourcesToValidate = async () => {
+    const response = await get<ApiResponse<IRessource[]>>("ressources"+"?valide=0");
     if (response?.status && response.data) {
       setRessources(response.data);
     }
@@ -33,7 +35,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   const deleteRessource = async (id: number) => {
     const response = await del<ApiResponse<null>>(`ressources/${id}`);
     if (response?.status) {
-      getAllRessources();
+      getRessourcesToValidate();
     } else {
       setToastMessage("Erreur lors de la suppression de la ressource");
     }
@@ -47,6 +49,34 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   const filteredRessources = allRessources.filter((ress) =>
     ress.titre.toLowerCase().includes(searchTitreRessource.toLowerCase())
   );
+
+  //Récupération de toutes les catégories
+  const [allCategories, setCategories] = useState<IRessourceCategorie[]>([]);
+  const getAllCategories = async (visible?: boolean) => {
+    const response = await get<ApiResponse<IRessourceCategorie[]>>(
+      "ressource_categories" + "?visible=" + visible
+    );
+    if (response?.status && response.data) {
+      setCategories(response.data);
+    }
+  };
+  useEffect(() => {
+    getAllCategories(true);
+  }, []);
+
+  //Récupération de tous les types de relation
+  const [allRelationTypes, setRelationTypes] = useState<IRelationType[]>([]);
+  const getAllRelationTypes = async (visible?: boolean) => {
+    const response = await get<ApiResponse<IRelationType[]>>(
+      "relation_types" + "?visible=" + visible
+    );
+    if (response?.status && response.data) {
+      setRelationTypes(response.data);
+    }
+  };
+  useEffect(() => {
+    getAllRelationTypes(true);
+  }, []);
 
   //Modal modification
   const [modalFormVisible, setModalFormVisible] = useState(false);
@@ -62,7 +92,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
 
   //Mise à jour de la liste des catégories
   useEffect(() => {
-    getAllRessources();
+    getRessourcesToValidate();
   }, [props.refreshRessources]);
 
   // Toast en cas d'erreur http
@@ -166,12 +196,15 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
             onSubmit={(success) => {
               if (success) {
                 setModalFormVisible(false);
-                getAllRessources();
+                getRessourcesToValidate();
               } else {
                 setToastMessage("Erreur lors de l'enregistrement");
               }
-            } } 
-            user={props.user} relationTypes={[]} categoriesTypes={[]}          />
+            }}
+            user={props.user}
+            relationTypes={allRelationTypes}
+            categoriesTypes={allCategories}
+          />
         </Modal>
       )}
 

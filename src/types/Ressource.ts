@@ -11,6 +11,7 @@ export interface IRessource {
     restreint: boolean;
     url: string;
     valide: boolean;
+    created_at: string;
 
     user: IUser;
     ressource_categorie: IRessourceCategorie;

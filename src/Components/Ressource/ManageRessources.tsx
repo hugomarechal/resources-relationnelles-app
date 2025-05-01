@@ -14,14 +14,14 @@ import { IRelationType } from "../../types/RelationType";
 const ManageRessources = () => {
   //A enlever après car concerne l'ajout des ressources
   const user = {
-    id: 0,
-    nom: "",
-    prenom: "",
-    email: "",
-    password: "",
-    pseudo: "",
-    code_postal: "",
-    ville: "",
+    id: 1,
+    nom: "HOUDAILLE",
+    prenom: "Valérie",
+    email: "hadriva@wanadoo.fr",
+    password: "12345",
+    pseudo: "ValHDL",
+    code_postal: "13120",
+    ville: "Gardanne",
     actif: false,
     role: {
       id: 1,
@@ -37,6 +37,7 @@ const ManageRessources = () => {
     restreint: false,
     url: "",
     valide: false,
+    created_at: "",
     user: {
       ...user,
     },
@@ -58,29 +59,33 @@ const ManageRessources = () => {
   });
 
   //Récupération de toutes les catégories
-  const [allCategories, setCategories] = useState<IRessourceCategorie[]>([]);
-  const getAllCategories = async () => {
+  const [allCategorieTypes, setCategories] = useState<IRessourceCategorie[]>(
+    []
+  );
+  const getAllCategories = async (visible?: boolean) => {
     const response = await get<ApiResponse<IRessourceCategorie[]>>(
-      "ressource_categories"
+      "ressource_categories" + "?visible=" + visible
     );
     if (response?.status && response.data) {
       setCategories(response.data);
     }
   };
   useEffect(() => {
-    getAllCategories();
+    getAllCategories(true);
   }, []);
 
   //Récupération de tous les types de relation
   const [allRelationTypes, setRelationTypes] = useState<IRelationType[]>([]);
-  const getAllRelationTypes = async () => {
-    const response = await get<ApiResponse<IRelationType[]>>("relation_types");
+  const getAllRelationTypes = async (visible?: boolean) => {
+    const response = await get<ApiResponse<IRelationType[]>>(
+      "relation_types" + "?visible=" + visible
+    );
     if (response?.status && response.data) {
       setRelationTypes(response.data);
     }
   };
   useEffect(() => {
-    getAllRelationTypes();
+    getAllRelationTypes(true);
   }, []);
 
   const [modalFormVisible, setModalFormVisible] = useState(false);
@@ -110,22 +115,8 @@ const ManageRessources = () => {
             restreint: false,
             url: "",
             valide: false,
-            user: {
-              id: 1,
-              nom: "HOUDAILLE",
-              prenom: "Valérie",
-              email: "hadriva@wanadoo.fr",
-              password: "12345",
-              pseudo: "ValHDL",
-              code_postal: "13120",
-              ville: "Gardanne",
-              actif: false,
-              role: {
-                id: 1,
-                name: "Name",
-                guard_name: "guard_name",
-              },
-            },
+            created_at: "",
+            user: { ...user },
             ressource_categorie: {
               id: 0,
               lib_ressource_categorie: "",
@@ -169,7 +160,7 @@ const ManageRessources = () => {
             }}
             user={user}
             relationTypes={allRelationTypes}
-            categoriesTypes={allCategories}
+            categoriesTypes={allCategorieTypes}
           />
         </Modal>
       )}

@@ -22,24 +22,36 @@ const CategoryForm = (props: CategoryFormProps) => {
     visible: props.ressourceCategorie?.visible,
   });
 
+  const validateForm = (value: string) => {
+    const valueTrim = value.trim();
+    if (!valueTrim) {
+      return "Le libellé est requis.";
+    }
+    if (valueTrim.length > 50) {
+      return "Le libellé ne doit pas dépasser 50 caractères.";
+    }
+    return "";
+  };
+
   const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    if (name === "lib_ressource_categorie") {
+      const errorMessage = validateForm(value);
+      setError(errorMessage);
+    }
   };
 
   const handleSubmit = async () => {
-    console.log("handleSubmit", formData);
     //Validation des données
-    if (!formData.lib_ressource_categorie.trim()) {
-      setError("Le libellé est requis.");
-      return;
-    }
-
-    if (formData.lib_ressource_categorie.length > 50) {
-      setError("Le libellé ne doit pas dépasser 50 caractères.");
+    const errorMessage = validateForm(formData.lib_ressource_categorie);
+    if (errorMessage) {
+      setError(errorMessage);
       return;
     }
 
@@ -68,9 +80,7 @@ const CategoryForm = (props: CategoryFormProps) => {
     setLoading(false);
   };
 
-  const isFormInvalid =
-    !formData.lib_ressource_categorie.trim() ||
-    formData.lib_ressource_categorie.trim().length > 50;
+  const isFormInvalid = !!validateForm(formData.lib_ressource_categorie);
 
   return (
     <>
@@ -95,13 +105,8 @@ const CategoryForm = (props: CategoryFormProps) => {
               name={"lib_ressource_categorie"}
               required={true}
               onChange={handleFormChange}
-              error={formData.lib_ressource_categorie === ""}
+              error={!!error}
             ></FloatingInput>
-            {error && (
-              <strong id="title-error" role="alert">
-                {error}
-              </strong>
-            )}
           </div>
           <div className="col-span-2 mb-5">
             <CheckBox
@@ -111,18 +116,6 @@ const CategoryForm = (props: CategoryFormProps) => {
               name={"visible"}
             />
           </div>
-        </div>
-
-        <div>
-          {error && (
-            <strong
-              id="title-error"
-              role="alert"
-              className="text-red-500 mt-4 mb-4"
-            >
-              {error}
-            </strong>
-          )}
         </div>
 
         <Button
