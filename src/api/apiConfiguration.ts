@@ -10,7 +10,6 @@ const api = axios.create({
   timeout: 60000,
   withCredentials: false,
 });
-console.log("VITE_API_BASE_URL =", import.meta.env.VITE_API_BASE_URL);
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');

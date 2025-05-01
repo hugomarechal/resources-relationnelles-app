@@ -28,7 +28,7 @@ const CheckBox = (props: CheckBoxProps) => {
       />
       <label
         htmlFor={props.label}
-        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        className="ms-2 text-sm text-gray-900 dark:text-gray-300"
       >
         {props.linkBefore && (
           <a

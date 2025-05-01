@@ -1,11 +1,12 @@
 import { ChangeEvent } from "react";
 
 interface InputProps {
-  type: "text" | "number" | "email" | "password";
+  type: "text" | "number" | "email" | "password" | "url";
   label: string;
   value: string | number;
   name: string;
   required?: boolean;
+  maxLength?: number;
   error?: boolean;
   disabled?: boolean;
   helperText?: string;
@@ -28,7 +29,10 @@ const FloatingInput = (props: InputProps) => {
         required={props.required}
         onChange={props.onChange}
         aria-invalid={props.error}
-        aria-describedby={props.helperText ? `${props.name}-helper-text` : undefined}
+        maxLength={props.maxLength ?? (props.type === "url" ? 255 : 50)}
+        aria-describedby={
+          props.helperText ? `${props.name}-helper-text` : undefined
+        }
       />
       <label
         htmlFor={props.name}
@@ -40,10 +44,11 @@ const FloatingInput = (props: InputProps) => {
       >
         {props.label}
       </label>
+
       {props.helperText && props.helperText?.length > 0 && (
         <p
           id="helper-text-explanation"
-          className="mt-2 text-sm text-gray-400 dark:text-gray-400"
+          className="mt-2 text-sm text-gray-400 dark:text-gray-400 text-left"
         >
           {props.helperText}
         </p>
