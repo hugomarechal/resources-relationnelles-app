@@ -16,8 +16,6 @@ import SearchSelectBox from "../Divers/SearchBar/SearchSelectBox";
 import { ISelectBoxOption } from "../../types/SelectBoxOption";
 import { FaCheckCircle } from "react-icons/fa";
 import { RxCrossCircled, RxReset } from "react-icons/rx";
-import { GoPeople } from "react-icons/go";
-import ShareRessourceForm from "./ShareRessourceForm";
 
 interface RessourcesAdminListProps {
   refreshRessources: boolean;
@@ -76,10 +74,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   //Modal modification
   const [modalFormVisible, setModalFormVisible] = useState(false);
 
-  //Modal share ressource
-  const [modalShareRessource, setModalShareRessource] = useState(false);
-
-  // Modal confirmation suppression
+// Modal confirmation suppression
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
   const handleConfirmation = (confirmed: boolean) => {
     if (confirmed && selectedRessource) {
@@ -103,7 +98,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   const [searchTitreRessource, setSearchTitreRessource] = useState("");
   const [searchCategorie, setSearchCategorie] = useState("");
   const [searchRelationType, setSearchRelationType] = useState("");
-  const [searchValide, setSearchValide] = useState("");
+  const [searchValide, setSearchValide] = useState("0");
 
   const handleSearchChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -128,7 +123,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
         String(ress.ressource_categorie.id) === searchCategorie) &&
       (!searchRelationType ||
         String(ress.relation_type.id) === searchRelationType) &&
-      (searchValide === "-1" || Boolean(ress.valide) === (searchValide === "0"))
+      (searchValide === "-1" || Boolean(ress.valide) === (searchValide === "1"))
   );
 
   const categorieOptions: ISelectBoxOption[] = [
@@ -148,8 +143,8 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
   ];
 
   const valideOptions: ISelectBoxOption[] = [
-    { label: "Validées", value: "0" },
-    { label: "Non validées", value: "1" },
+    { label: "Validées", value: "1" },
+    { label: "Non validées", value: "0" },
     { label: "Tout type de validation", value: "-1" },
   ];
 
@@ -157,7 +152,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
     setSearchTitreRessource("");
     setSearchCategorie("");
     setSearchRelationType("");
-    setSearchValide("-1");
+    setSearchValide("0");
   };
   //
 
@@ -206,22 +201,22 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                titre
+              <th scope="col" className="px-6 py-4">
+                Titre
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 Catégorie
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 Relation
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 Visible
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 <span className="sr-only">Modifier</span>
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 <span className="sr-only">Supprimer</span>
               </th>
             </tr>
@@ -233,16 +228,16 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
                 key={ressource.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
                   {ressource.titre}
                 </td>
-                <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
                   {ressource.ressource_categorie.lib_ressource_categorie}
                 </td>
-                <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
                   {ressource.relation_type.lib_relation_type}
                 </td>
-                <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
                   {ressource.valide ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
@@ -250,7 +245,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
                   )}
                 </td>
 
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-3 text-right">
                   <Button
                     icon={<MdModeEdit size={25} />}
                     label=""
@@ -262,7 +257,7 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
                     }}
                   />
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-3 text-right">
                   <Button
                     icon={<MdDelete size={20} />}
                     label=""
@@ -270,18 +265,6 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
                       if (ressource) {
                         setSelectedRessource(ressource);
                         setModalConfirmVisible(true);
-                      }
-                    }}
-                  />
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <Button
-                    icon={<GoPeople size={20} />}
-                    label="Partager"
-                    onClick={() => {
-                      if (ressource && ressource.user.id === props.user.id) {
-                        setSelectedRessource(ressource);
-                        setModalShareRessource(true);
                       }
                     }}
                   />
@@ -329,30 +312,6 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
       {toastMessage && (
         <Toast type="danger" text={toastMessage} autoClose={true} />
       )}
-
-      {/* Modal partage */}
-      {modalShareRessource &&
-        selectedRessource &&
-        props.user.id === selectedRessource.user.id && (
-          <Modal
-            isOpen={modalShareRessource}
-            onClose={() => setModalShareRessource(false)}
-            dismissable={true}
-            position="center"
-          >
-            <ShareRessourceForm
-              ressource={selectedRessource}
-              user={props.user}
-              onSubmit={(success) => {
-                if (success) {
-                  setToastMessage("Ressource partagée avec succès");
-                } else {
-                  setToastMessage("Erreur lors de l'enregistrement");
-                }
-              }}
-            />
-          </Modal>
-        )}
     </>
   );
 };

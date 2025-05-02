@@ -88,16 +88,16 @@ const CategoriesList = (props: CategoriesListProps) => {
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 Libellé
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 Actif
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 <span className="sr-only">Modifier</span>
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-4">
                 <span className="sr-only">Supprimer</span>
               </th>
             </tr>
@@ -109,17 +109,17 @@ const CategoriesList = (props: CategoriesListProps) => {
                 key={categorie.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
                   {categorie.lib_ressource_categorie}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-3">
                   {categorie.visible ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
                     <RxCrossCircled className="text-red-500" />
                   )}
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-3 text-right">
                   <Button
                     icon={<MdModeEdit size={25} />}
                     label=""
@@ -131,7 +131,7 @@ const CategoriesList = (props: CategoriesListProps) => {
                     }}
                   />
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-3 text-right">
                   <Button
                     icon={<MdDelete size={20} />}
                     label=""
