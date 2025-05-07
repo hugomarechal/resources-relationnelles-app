@@ -26,7 +26,7 @@ const adminMenuChoices: AdminChoice[] = [
 ];
 
 // Simule l'état d'admin
-const isAdmin = false;
+const isAdmin = true;
 
 // Fonctions de base
 const onHome = () => alert("Accueil !");
@@ -41,7 +41,7 @@ const navItems: NavItem[] = [
     srOnly: "Accueil",
     icon: (
       <svg
-        className="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+        className="w-6.5 h-6.5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
@@ -59,7 +59,7 @@ const navItems: NavItem[] = [
     srOnly: "Ajouter du contenu",
     icon: (
       <svg
-        className="w-4 h-4 text-white"
+        className="w-5 h-5 text-white"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -82,7 +82,7 @@ const navItems: NavItem[] = [
     srOnly: "Profil",
     icon: (
       <svg
-        className="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+        className="w-7.5 h-7.5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
@@ -100,7 +100,7 @@ const navItems: NavItem[] = [
     srOnly: "Administration",
     icon: (
       <svg
-        className="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+        className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -169,14 +169,16 @@ const Header: React.FC = () => {
     <div className="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
       <div className={`grid h-full max-w-lg mx-auto ${gridColsClass}`}>
         {visibleNavItems.map((item: NavItem, index: number) => {
+          // Bouton central
           if (item.isCenter) {
             return (
               <div key={item.key} className="flex items-center justify-center">
                 <div className="relative group flex flex-col items-center justify-center">
-                <button
-                  type="button"
-                  onClick={item.onClick}
-                  className="inline-flex items-center justify-center w-12 h-12 font-medium bg-blue-600 rounded-full hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800 transition-colors duration-200 shadow-lg">
+                  <button
+                    type="button"
+                    onClick={item.onClick}
+                    className="inline-flex items-center justify-center w-12 h-12 font-medium bg-blue-600 rounded-full hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800 transition-colors duration-200 shadow-lg"
+                  >
                     {item.icon}
                     <span className="sr-only">{item.srOnly}</span>
                   </button>
@@ -187,7 +189,8 @@ const Header: React.FC = () => {
               </div>
             );
           }
-
+  
+          // Bouton admin avec menu déroulant
           if (item.isAdminMenu) {
             return (
               <div
@@ -195,16 +198,14 @@ const Header: React.FC = () => {
                 className="relative group flex flex-col items-center justify-center h-full"
                 ref={adminRef}
               >
-                <div className={`w-full h-full flex items-center justify-center px-5 transition-colors duration-200 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer ${getWrapperClass(item, index)}`}>
-                  <button
-                    type="button"
-                    onClick={() => setAdminOpen((open) => !open)}
-                    className="bg-transparent flex flex-col items-center justify-center focus:outline-none"
-                  >
-                    {item.icon}
-                    <span className="sr-only">{item.srOnly}</span>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setAdminOpen((open) => !open)}
+                  className={`w-full h-full flex flex-col items-center justify-center px-5 transition-colors duration-200 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer ${getWrapperClass(item, index)}`}
+                >
+                  {item.icon}
+                  <span className="sr-only">{item.srOnly}</span>
+                </button>
                 <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-gray-600 px-3 py-2 text-xs text-white opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 pointer-events-none transition-all duration-200 z-10 shadow-lg">
                   {item.tooltip}
                 </span>
@@ -227,22 +228,21 @@ const Header: React.FC = () => {
               </div>
             );
           }
-
+  
+          // Boutons classiques
           return (
             <div
               key={item.key}
               className="relative group flex flex-col items-center justify-center h-full"
             >
-              <div className={`w-full h-full flex items-center justify-center px-5 transition-colors duration-200 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer ${getWrapperClass(item, index)}`}>
-                <button
-                  type="button"
-                  onClick={item.onClick}
-                  className="bg-transparent flex flex-col items-center justify-center focus:outline-none"
-                >
-                  {item.icon}
-                  <span className="sr-only">{item.srOnly}</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={item.onClick}
+                className={`w-full h-full flex flex-col items-center justify-center px-5 transition-colors duration-200 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer ${getWrapperClass(item, index)}`}
+              >
+                {item.icon}
+                <span className="sr-only">{item.srOnly}</span>
+              </button>
               <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-gray-600 px-3 py-2 text-xs text-white opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 pointer-events-none transition-all duration-200 z-10 shadow-lg">
                 {item.tooltip}
               </span>
@@ -252,6 +252,6 @@ const Header: React.FC = () => {
       </div>
     </div>
   );
-};
+  };
 
 export default Header;
