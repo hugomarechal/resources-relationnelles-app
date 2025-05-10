@@ -1,17 +1,17 @@
-import "./App.css";
+import Header from './Components/LayoutItems/Header'
 
 function App() {
 
 return (
     <>
-      <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-          (RE)SOURCES RELATIONNELLES
-        </span>
-      </h1>
+    <Header/>
+      <h1 className='text-4xl text-[#000000]'>Test title</h1>
 
+      <button className='flex bg-red-500'>
+        test button
+      </button>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
