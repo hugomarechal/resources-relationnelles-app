@@ -9,6 +9,7 @@ return (
         <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
           (RE)SOURCES RELATIONNELLES
         </span>
+        <Register />
       </h1>
       <Login  />
     </>
