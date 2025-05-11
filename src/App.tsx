@@ -1,4 +1,5 @@
 import "./App.css";
+import PasswordReset from "./Components/Form/PasswordReset";
 
 function App() {
 
@@ -9,7 +10,6 @@ return (
           (RE)SOURCES RELATIONNELLES
         </span>
       </h1>
-
     </>
   );
 }
