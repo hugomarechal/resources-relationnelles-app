@@ -94,8 +94,8 @@ const Register: React.FC = () => {
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {message && <p className="text-green-600 text-sm">{message}</p>}
 
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-          Créer mon compte
+        <button type="submit" className=" bg-clip bg-gradient-to-r to-emerald-600 from-sky-400 text-white py-2 rounded hover:bg-blue-700">
+          Créer un compte
         </button>
       </form>
     </div>
