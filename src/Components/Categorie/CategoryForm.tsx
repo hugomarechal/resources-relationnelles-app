@@ -99,10 +99,10 @@ const CategoryForm = (props: CategoryFormProps) => {
         <div className="grid gap-1 mb-4 grid-cols-2">
           <div className="col-span-2">
             <FloatingInput
-              type={"text"}
-              label={"Libellé"}
+              type="text"
+              label="Libellé"
               value={formData.lib_ressource_categorie}
-              name={"lib_ressource_categorie"}
+              name="lib_ressource_categorie"
               required={true}
               onChange={handleFormChange}
               error={!!error}
@@ -114,13 +114,13 @@ const CategoryForm = (props: CategoryFormProps) => {
               onChange={handleFormChange}
               isChecked={formData.visible}
               label="Visible"
-              name={"visible"}
+              name="visible"
             />
           </div>
         </div>
 
         <Button
-          label={"Enregistrer"}
+          label="Enregistrer"
           loading={loading}
           onClick={handleSubmit}
           disabled={isFormInvalid || loading}

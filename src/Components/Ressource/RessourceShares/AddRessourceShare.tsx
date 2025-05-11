@@ -81,16 +81,16 @@ const AddRessourceShare = (props: AddRessourceShareProps) => {
     <>
       <div className="flex flex-row justify-items-stretch gap-3">
         <FloatingInput
-          type={"email"}
-          label={"Email nouveau destinataire"}
+          type="email"
+          label="Email nouveau destinataire"
           value={formData.email_destinataire}
-          name={"email_destinataire"}
+          name="email_destinataire"
           required={true}
           onChange={handleFormChange}
           error={!!error}
         />
         <Button
-          label={""}
+          label=""
           icon={<MdPersonAddAlt1 size={20} />}
           onClick={handleSubmit}
           disabled={isFormInvalid}

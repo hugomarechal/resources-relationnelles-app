@@ -11,7 +11,7 @@ import { IUser } from "../../types/User";
 import { IRelationType } from "../../types/RelationType";
 import { IRessourceCategorie } from "../../types/RessourceCategorie";
 import { SelectBox } from "../Form/SelectBox";
-import { formatStringDate } from "../services/utils";
+import { formatStringDate } from "../../services/utils";
 import { ISelectBoxOption } from "../../types/SelectBoxOption";
 
 interface CategoryFormProps {
@@ -187,7 +187,7 @@ const RessourceForm = (props: CategoryFormProps) => {
           <div className="col-span-2">
             <SelectBox
               options={categorieOptions}
-              label={"Catégorie"}
+              label="Catégorie"
               value={String(formData.ressource_categorie_id)}
               name="ressource_categorie_id"
               onChange={handleFormChange}
@@ -204,7 +204,7 @@ const RessourceForm = (props: CategoryFormProps) => {
           <div className="col-span-2">
             <SelectBox
               options={relationTypesOptions}
-              label={"Type de relation"}
+              label="Type de relation"
               value={String(formData.relation_type_id)}
               name="relation_type_id"
               onChange={handleFormChange}
@@ -220,10 +220,10 @@ const RessourceForm = (props: CategoryFormProps) => {
 
           <div className="col-span-2">
             <FloatingInput
-              type={"text"}
-              label={"Titre"}
+              type="text"
+              label="Titre"
               value={formData.titre}
-              name={"titre"}
+              name="titre"
               required={true}
               onChange={handleFormChange}
               error={!!fieldErrors.titre}
@@ -254,10 +254,10 @@ const RessourceForm = (props: CategoryFormProps) => {
 
           <div className="col-span-2 mt-5">
             <FloatingInput
-              type={"url"}
-              label={"Lien vers une url"}
+              type="url"
+              label="Lien vers une url"
               value={formData.url}
-              name={"url"}
+              name="url"
               onChange={handleFormChange}
               error={!!fieldErrors.url}
             />
@@ -271,7 +271,7 @@ const RessourceForm = (props: CategoryFormProps) => {
               onChange={handleFormChange}
               isChecked={formData.restreint}
               label="Privée"
-              name={"restreint"}
+              name="restreint"
             />
           </div>
 
@@ -281,7 +281,7 @@ const RessourceForm = (props: CategoryFormProps) => {
               onChange={handleFormChange}
               isChecked={formData.valide}
               label="Valide"
-              name={"valide"}
+              name="valide"
             />
           </div>
           {/* Pour admin */}
@@ -289,7 +289,7 @@ const RessourceForm = (props: CategoryFormProps) => {
 
         <div>
           <Button
-            label={"Enregistrer"}
+            label="Enregistrer"
             loading={loading}
             onClick={handleSubmit}
             disabled={isFormInvalid || loading}
