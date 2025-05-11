@@ -80,14 +80,16 @@ const Register: React.FC = () => {
         <FloatingInput type="password" label="Confirmation du mot de passe" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} required />
         <FloatingInput type="text" label="Code postal" name="code_postal" value={formData.code_postal} onChange={handleChange} required />
     
+       <p className="text-sm text-gray-500 dark:text-gray-400 mb-1 text-left"> Ville </p>
         <SelectBox
-          label="Ville"
+          label=""
           name="ville"
           value={formData.ville}
           options={villesOptions}
           onChange={handleChange}
-          required
+          required={true}
         />
+
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {message && <p className="text-green-600 text-sm">{message}</p>}
