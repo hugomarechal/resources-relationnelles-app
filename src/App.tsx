@@ -1,4 +1,5 @@
 import Header from './Components/LayoutItems/Header'
+import Footer from './Components/LayoutItems/Footer'
 
 function App() {
 
@@ -10,6 +11,7 @@ return (
       <button className='flex bg-red-500'>
         test button
       </button>
+      <Footer/>
     </>
   )
 }
