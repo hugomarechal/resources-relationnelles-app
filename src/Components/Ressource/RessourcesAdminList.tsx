@@ -165,27 +165,27 @@ const RessourcesAdminList = (props: RessourcesAdminListProps) => {
         {/* Barre de recherche */}
         <div className="mt-1 mr-0 mb-4 ml-2 flex flex-wrap gap-2 mt-2">
           <SearchInput
-            placeholder={"Chercher par titre"}
+            placeholder="Chercher par titre"
             onChange={handleSearchChange}
             value={searchTitreRessource}
-            name={"search_titre"}
+            name="search_titre"
           />
           <SearchSelectBox
             onChange={handleSearchChange}
             value={searchCategorie}
-            name={"search_ressource_categorie"}
+            name="search_ressource_categorie"
             options={categorieOptions}
           />
           <SearchSelectBox
             onChange={handleSearchChange}
             value={searchRelationType}
-            name={"search_relation_type"}
+            name="search_relation_type"
             options={relationTypeOptions}
           />
           <SearchSelectBox
             onChange={handleSearchChange}
             value={searchValide}
-            name={"search_valide"}
+            name="search_valide"
             options={valideOptions}
           />
           <div className="gap-4">

@@ -79,10 +79,10 @@ const CategoriesList = (props: CategoriesListProps) => {
         {/* Barre de recherche */}
         <div className="mt-1 mr-0 mb-4 ml-2">
           <SearchInput
-            placeholder={"Chercher une catégorie"}
+            placeholder="Chercher une catégorie"
             onChange={handleSearchInputChange}
             value={searchLibCategorie} 
-            name={"search_categorie"}          />
+            name="search_categorie"          />
         </div>
         {/* Liste des catégories */}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
