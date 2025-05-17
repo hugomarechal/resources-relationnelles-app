@@ -158,7 +158,15 @@ const RessourceForm = (props: CategoryFormProps) => {
     setLoading(false);
   };
 
-  const isFormInvalid = Object.values(fieldErrors).some((err) => err);
+  const isFormInvalid =
+    !!validateField("titre", formData.titre) ||
+    !!validateField("description", formData.description) ||
+    !!validateField("url", formData.url) ||
+    !!validateField(
+      "ressource_categorie_id",
+      String(formData.ressource_categorie_id)
+    ) ||
+    !!validateField("relation_type_id", String(formData.relation_type_id));
 
   return (
     <>
