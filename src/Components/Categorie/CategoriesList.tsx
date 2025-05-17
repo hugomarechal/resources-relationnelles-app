@@ -38,7 +38,9 @@ const CategoriesList = (props: CategoriesListProps) => {
     if (response?.status) {
       getAllCategories();
     } else {
-      setToastMessage("Erreur lors de la suppression de la catégorie");
+      setToastMessage(
+        "Erreur lors de la suppression de la catégorie : elle est peut-être déjà utilisée"
+      );
     }
   };
 
@@ -81,8 +83,9 @@ const CategoriesList = (props: CategoriesListProps) => {
           <SearchInput
             placeholder="Chercher une catégorie"
             onChange={handleSearchInputChange}
-            value={searchLibCategorie} 
-            name="search_categorie"          />
+            value={searchLibCategorie}
+            name="search_categorie"
+          />
         </div>
         {/* Liste des catégories */}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
