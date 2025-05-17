@@ -23,10 +23,13 @@ const AddRessourceShare = (props: AddRessourceShareProps) => {
 
   const validateForm = (value: string) => {
     const valueTrim = value.trim();
-    if (valueTrim.length > 50) {
-      return "Le libellé ne doit pas dépasser 50 caractères.";
+    if (!valueTrim) {
+      return "L'email est requis.";
     }
-    if (valueTrim && !/\S+@\S+\.\S+/.test(valueTrim)) {
+    if (valueTrim.length > 50) {
+      return "L'email ne doit pas dépasser 50 caractères.";
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(valueTrim)) {
       return "Format de l'email invalide.";
     }
     return "";
@@ -67,15 +70,15 @@ const AddRessourceShare = (props: AddRessourceShareProps) => {
     );
 
     if (!response?.status) {
-      setError("Erreur lors de l'ajout du partage : l'email doit correspondre à un compte utilisateur actif ou ne pas figurer dans les partages de cette ressource.");
+      setError(
+        "Erreur lors de l'ajout du partage : l'email doit correspondre à un compte utilisateur actif ou ne pas figurer dans les partages de cette ressource."
+      );
     }
 
     props.onSubmit(!!response?.status);
   };
 
-  const isFormInvalid =
-    !!validateForm(formData.email_destinataire) ||
-    formData.email_destinataire === "";
+  const isFormInvalid = !!validateForm(formData.email_destinataire);
 
   return (
     <>
