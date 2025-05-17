@@ -1,7 +1,10 @@
 import "./App.css";
+import { useState } from "react";
+
+
 
 function App() {
-
+const [actif, setActif] = useState(false);
 return (
     <>
       <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
@@ -9,7 +12,6 @@ return (
           (RE)SOURCES RELATIONNELLES
         </span>
       </h1>
-
     </>
   );
 }
