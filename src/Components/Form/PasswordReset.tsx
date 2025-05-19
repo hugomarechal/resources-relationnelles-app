@@ -21,8 +21,8 @@ const PasswordReset: React.FC = () => {
     setError('');
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/user/reset-password', {
-        method: 'PUT',
+      const res = await fetch('http://127.0.0.1:8000/api/reset-password', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
