@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FloatingInput from './FloatingInput';
+import FloatingInput from '../Form/FloatingInput';
 
 
 const Login: React.FC = () => {
@@ -82,16 +82,6 @@ const Login: React.FC = () => {
           Se connecter
         </button>
       </form>
-
-      <div className="mt-4 text-center space-y-1 text-sm text-gray-600">
-        <p>
-          Faudra rajouter le lien vers "mot de passe oublié."
-        </p>
-        <p>
-          Vous n’avez pas encore de compte ?{' '}
-          Foradra rajouter le lien vers "Créer un compte".
-        </p>
-      </div>
     </div>
   );
 };
