@@ -17,6 +17,7 @@ return (
       <Login  />
     <Register />
     <AuthPage />
+      <PasswordReset />
     </>
   );
 }
