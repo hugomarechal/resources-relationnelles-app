@@ -12,6 +12,7 @@ return (
         
       </h1>
       <Login  />
+    <Register />
     </>
   );
 }

@@ -69,7 +69,7 @@ const Register: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-gray-800 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Créer un compte</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-100">Créer un compte</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
 
         <FloatingInput type="text" label="Nom" name="nom" value={formData.nom} onChange={handleChange} required />
