@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import FloatingInput from './FloatingInput';
-import { SelectBox } from './SelectBox';
+import FloatingInput from '../Form/FloatingInput';
+import { SelectBox } from '../Form/SelectBox';
 import { ISelectBoxOption } from '../../types/SelectBoxOption';
 
 const Register: React.FC = () => {
