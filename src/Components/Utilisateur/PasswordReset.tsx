@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FloatingInput from './FloatingInput';
+import FloatingInput from '../Form/FloatingInput';
 
 const PasswordReset: React.FC = () => {
   const [formData, setFormData] = useState({

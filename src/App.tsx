@@ -1,8 +1,7 @@
 import "./App.css";
 import AuthPage from "./Components/Utilisateur/AuthPage";
-import Login from "./Components/Utilisateur/Login";
-import Register from "./Components/Utilisateur/Register";
-import PasswordReset from "./Components/Form/PasswordReset";
+
+
 
 function App() {
 
@@ -14,10 +13,9 @@ return (
         </span>
         
       </h1>
-      <Login  />
-    <Register />
+     
     <AuthPage />
-      <PasswordReset />
+    
     </>
   );
 }
