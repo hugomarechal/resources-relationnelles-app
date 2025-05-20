@@ -1,4 +1,5 @@
 import "./App.css";
+
 import Footer from "./Components/LayoutItems/Footer";
 import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
@@ -21,8 +22,8 @@ import { useState } from "react";
   created_at: string;
   updated_at: string;
 };*/
+import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
 
-import { useState } from "react";
 
 
 
@@ -39,8 +40,12 @@ return (
           (RE)SOURCES RELATIONNELLES
         </span>
       </h1>
+
         <FeedContainer/>
     {/*    <ManageRessources/>*/}
+
+      <AdminUserManager />
+
     </>
   );
 }
