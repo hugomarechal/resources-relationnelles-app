@@ -53,7 +53,7 @@ const PasswordReset: React.FC = () => {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-gray-900 rounded shadow">
       <h2 className="text-2xl text-white font-bold mb-4 text-center">Réinitialisation du mot de passe</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 text-white">
         <FloatingInput
           type="email"
           name="email"
