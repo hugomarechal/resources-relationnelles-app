@@ -3,6 +3,8 @@ import Footer from "./Components/LayoutItems/Footer";
 import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
 import AuthPage from "./Components/Utilisateur/AuthPage";
+import FeedContainer from "./Components/LayoutItems/FeedContainer.tsx";
+import ManageRessources from "./Components/Ressource/ManageRessources.tsx";
 import { useState } from "react";
 
 /*type User = {
@@ -34,7 +36,8 @@ return (
           (RE)SOURCES RELATIONNELLES
         </span>
       </h1>
-      <AuthPage setUser={setUser} />
+        <FeedContainer/>
+    {/*    <ManageRessources/>*/}
     </>
   );
 }
