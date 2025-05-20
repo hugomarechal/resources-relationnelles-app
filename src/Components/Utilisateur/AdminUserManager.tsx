@@ -13,22 +13,22 @@ const AdminUserManager: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('http://127.0.0.1:8000/api/admin/users', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      const data = await res.json();
-      setUsers(data);
-    } catch (err) {
-      console.error('Erreur lors de la récupération des utilisateurs.');
-    } finally {
-      setLoading(false);
-    }
-  };
+ const fetchUsers = async () => {
+  try {
+    setLoading(true);
+    const res = await fetch('http://127.0.0.1:8000/api/users', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    const result = await res.json();
+    setUsers(result.data); 
+  } catch (err) {
+    console.error('Erreur lors de la récupération des utilisateurs.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const toggleUser = async (id: number) => {
     try {
