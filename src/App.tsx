@@ -33,9 +33,9 @@ function App() {
       <FeedContainer />
       <Navbar />
 
-        <Footer />
+      <Footer />
     </>
   );
-};
+}
 
 export default App;
