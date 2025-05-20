@@ -42,7 +42,7 @@ return (
 
         <FeedContainer/>
     {/*    <ManageRessources/>*/}
-
+      <AuthPage/>
       <LogoutButton />
 
     </>
