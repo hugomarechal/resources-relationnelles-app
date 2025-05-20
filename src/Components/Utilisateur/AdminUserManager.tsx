@@ -52,9 +52,7 @@ const AdminUserManager: React.FC = () => {
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-6">Gestion des comptes utilisateurs</h2>
 
-      {loading ? (
-        <p className="text-gray-500">Chargement...</p>
-      ) : (
+      
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b bg-gray-100">
@@ -80,7 +78,7 @@ const AdminUserManager: React.FC = () => {
             ))}
           </tbody>
         </table>
-      )}
+      
     </div>
   );
 };

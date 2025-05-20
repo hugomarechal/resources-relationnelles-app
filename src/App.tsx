@@ -23,6 +23,7 @@ import { useState } from "react";
   updated_at: string;
 };*/
 import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
+import Login from "./Components/Utilisateur/Login.tsx";
 
 
 
@@ -45,7 +46,7 @@ return (
     {/*    <ManageRessources/>*/}
 
       <AdminUserManager />
-
+      <AuthPage/>
     </>
   );
 }
