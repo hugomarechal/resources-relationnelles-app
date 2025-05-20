@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FloatingInput from '../Form/FloatingInput';
 
 
-const Login: React.FC = () => {
+const Login: React.FC = ({setUser}) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -45,6 +45,11 @@ const Login: React.FC = () => {
       if (data.token) {
         localStorage.setItem('token', data.token);
       }
+      if (data.user) {
+        //localStorage.setItem('user', JSON.stringify(data.user));
+        setUser(data.user);
+      }
+      
 
       // Redirection optionnelle
       // window.location.href = '/dashboard';

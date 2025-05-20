@@ -3,16 +3,17 @@ import Login from './Login';
 import Register from './Register';
 import PasswordReset from './PasswordReset';
 
+
 type View = 'login' | 'register' | 'reset';
 
-const AuthPage: React.FC = () => {
+const AuthPage: React.FC = ({setUser}) => {
   const [view, setView] = useState<View>('login');
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
       {view === 'login' && (
         <>
-          <Login />
+          <Login setUser={setUser}/>
           <div className="mt-4 text-sm text-center space-y-2 text-gray-600">
             <p>
               <button
