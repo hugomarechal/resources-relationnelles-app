@@ -1,4 +1,7 @@
 import "./App.css";
+import AuthPage from "./Components/Utilisateur/AuthPage";
+
+
 
 function App() {
 
@@ -8,8 +11,11 @@ return (
         <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
           (RE)SOURCES RELATIONNELLES
         </span>
+        
       </h1>
-
+     
+    <AuthPage />
+    
     </>
   );
 }
