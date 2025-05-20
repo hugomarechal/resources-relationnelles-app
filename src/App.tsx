@@ -22,7 +22,6 @@ import { useState } from "react";
   updated_at: string;
 };*/
 
-
 function App() {
 
 const [user, setUser] = useState(null);
@@ -40,6 +39,6 @@ return (
     {/*    <ManageRessources/>*/}
     </>
   );
-}
+};
 
 export default App;
