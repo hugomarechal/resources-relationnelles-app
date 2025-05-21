@@ -1,5 +1,6 @@
 import Button from "./Button.tsx";
 import { IRessource } from "../../types/Ressource.ts";
+import { FaReadme } from "react-icons/fa";
 
 interface ResourceCardProps {
   index: number;
@@ -26,7 +27,7 @@ const ResourceCard = (props: ResourceCardProps) => {
           </div>
 
           <div className="mt-4 px-6 pb-4 flex-grow">
-            <p className="text-sm text-gray-500 leading-snug line-clamp-3">
+            <p className="text-sm text-gray-500 leading-snug line-clamp-5">
               {props.ressource.description}
             </p>
           </div>
@@ -38,9 +39,12 @@ const ResourceCard = (props: ResourceCardProps) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button label="Consulter" onClick={placeholder} />
+            <Button
+              label="Consulter"
+              onClick={placeholder}
+              icon={<FaReadme size={20} />}
+            />
           </a>
-          <Button label="Partager" onClick={placeholder} color="gray" />
         </div>
       </div>
     </div>
