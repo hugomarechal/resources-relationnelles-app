@@ -4,38 +4,38 @@ import Footer from "./Components/LayoutItems/Footer";
 import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
 import FeedContainer from "./Components/LayoutItems/FeedContainer.tsx";
+import NewResourceLayout from "./Components/LayoutItems/NewResourceLayout.tsx";
+import ProfileLayout from "./Components/LayoutItems/ProfileLayout.tsx";
+import AdminLayout from "./Components/LayoutItems/AdminLayout.tsx";
 import { useState } from "react";
 
-/*type User = {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  email_verified_at: string | null;
-  pseudo: string;
-  code_postal: string;
-  ville: string;
-  actif: number;
-  role_id: number;
-  created_at: string;
-  updated_at: string;
-};*/
-import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
-import Login from "./Components/Utilisateur/Login.tsx";
-import LogoutButton from "./Components/Utilisateur/LogoutButton";
-
 function App() {
-  const [user, setUser] = useState(null);
-  console.log(user);
+  //const [user, setUser] = useState(null);
+    const [currentLayout, setCurrentLayout] = useState('home');
+    const [adminOption, setAdminOption] = useState(null);
+
+    const getCurrentLayout = () => {
+        switch (currentLayout) {
+            case 'home':
+                return <FeedContainer/>;
+            case 'new':
+                return <NewResourceLayout/>
+            case 'profile':
+                return <ProfileLayout/>
+            case 'admin':
+                return <AdminLayout adminOption={adminOption}/>
+            default:
+                return <FeedContainer/>;
+        }
+    }
 
   return (
     <>
-      <div className="mb-5">
-        <Header />
-      </div>
-
-      <FeedContainer />
-      <Navbar />
+      <Header />
+        {
+            getCurrentLayout()
+        }
+      <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
 
       <Footer />
     </>
