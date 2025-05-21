@@ -42,6 +42,8 @@ function App() {
   return (
     <>
       <Header />
+      <LogoutButton />
+      <AuthPage />
       {getCurrentLayout()}
       <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
       <Footer />
