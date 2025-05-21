@@ -1,4 +1,5 @@
 import "./App.css";
+
 import Footer from "./Components/LayoutItems/Footer";
 import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
@@ -22,8 +23,7 @@ import Footer from "./Components/LayoutItems/footer.tsx";
 };*/
 import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
 import Login from "./Components/Utilisateur/Login.tsx";
-
-
+import LogoutButton from "./Components/Utilisateur/LogoutButton";
 
 function App() {
   const [user, setUser] = useState(null);
