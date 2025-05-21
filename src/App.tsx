@@ -5,7 +5,6 @@ import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
 import FeedContainer from "./Components/LayoutItems/FeedContainer.tsx";
 import { useState } from "react";
-import Footer from "./Components/LayoutItems/footer.tsx";
 
 /*type User = {
   id: number;
