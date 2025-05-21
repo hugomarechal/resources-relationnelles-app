@@ -91,7 +91,7 @@ const UserUpdate: React.FC = () => {
     </div>
   )}
 
-  <LogoutButton />
+  
 
   {message && <p className="text-green-500 text-sm mt-4">{message}</p>}
   {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
