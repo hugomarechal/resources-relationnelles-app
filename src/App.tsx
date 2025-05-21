@@ -9,12 +9,6 @@ import ProfileLayout from "./Components/LayoutItems/ProfileLayout.tsx";
 import AdminLayout from "./Components/LayoutItems/AdminLayout.tsx";
 import { useState } from "react";
 import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
-import {useUser} from "./contexts/AuthContext.tsx";
-
-import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
-import Login from "./Components/Utilisateur/Login.tsx";
-import LogoutButton from "./Components/Utilisateur/LogoutButton";
-import AdminRegister from "./Components/Utilisateur/AdminRegister.tsx";
 
 function App() {
 
@@ -42,8 +36,6 @@ function App() {
   return (
     <>
       <Header />
-      <LogoutButton />
-      <AuthPage />
       {getCurrentLayout()}
       <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
       <Footer />
