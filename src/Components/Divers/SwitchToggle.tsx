@@ -7,6 +7,7 @@ interface SwitchToggleProps {
 
 const SwitchToggle: React.FC<SwitchToggleProps> = ({ checked, onToggle }) => {
   return (
+    
     <button
       onClick={onToggle}
       className={`w-12 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${
