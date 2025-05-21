@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import ResourceCard from "../Divers/ResourceCard.tsx";
+import ResourceCard from "../Ressource/ResourceCard.tsx";
 import { IRessource } from "../../types/Ressource.ts";
 import { ApiResponse } from "../../api/ApiResponse.ts";
 import { get } from "../../api/apiClient";
@@ -61,6 +61,7 @@ const FeedContainer = () => {
   const [searchTitreRessource, setSearchTitreRessource] = useState("");
   const [searchCategorie, setSearchCategorie] = useState("");
   const [searchRelationType, setSearchRelationType] = useState("");
+  const [searchRestreint, setsearchRestreint] = useState("-1");
 
   const handleSearchChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -73,6 +74,8 @@ const FeedContainer = () => {
       setSearchCategorie(value);
     } else if (name === "search_relation_type") {
       setSearchRelationType(value);
+    } else if (name === "search_restreint") {
+      setsearchRestreint(value);
     }
   };
 
@@ -98,13 +101,22 @@ const FeedContainer = () => {
       (!searchCategorie ||
         String(ress.ressource_categorie.id) === searchCategorie) &&
       (!searchRelationType ||
-        String(ress.relation_type.id) === searchRelationType)
+        String(ress.relation_type.id) === searchRelationType) &&
+      (searchRestreint === "-1" ||
+        String(ress.restreint ? 1 : 0) === searchRestreint)
   );
-  
+
+  const restreintOptions: ISelectBoxOption[] = [
+    { label: "Toutes", value: "-1" },
+    { label: "Privée", value: "1" },
+    { label: "Publique", value: "0" },
+  ];
+
   const resetFilters = () => {
     setSearchTitreRessource("");
     setSearchCategorie("");
     setSearchRelationType("");
+    setsearchRestreint("-1");
   };
 
   return (
@@ -129,6 +141,12 @@ const FeedContainer = () => {
             value={searchRelationType}
             name="search_relation_type"
             options={relationTypeOptions}
+          />
+          <SearchSelectBox
+            onChange={handleSearchChange}
+            value={searchRestreint}
+            name="search_restreint"
+            options={restreintOptions}
           />
           <div className="gap-4">
             <Button
