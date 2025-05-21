@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { ISelectBoxOption } from "../../types/SelectBoxOption";
+import api from "../../api/apiConfiguration";
+import { IRole } from "../../types/Role";
+import { get } from "../../api/apiClient";
+import { ApiResponse } from "../../api/ApiResponse";
 import FloatingInput from "../Form/FloatingInput";
 import { FaSave } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
@@ -85,19 +90,6 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({ onClose, onSuccess }) => 
     { label: "Lille", value: "Lille" },
   ];
 
-  // //Récupération de toutes les catégories
-  const [roles, setRoles] = useState<IRole[]>([]);
-
-  const getAllCategories = async () => {
-    const response = await get<ApiResponse<IRole[]>>("roles");
-    if (response?.status && response.data) {
-      setRoles(response.data);
-    }
-  };
-
-  useEffect(() => {
-    getAllCategories();
-
   const [roles, setRoles] = useState<IRole[]>([]);
 
   const getAllRoles = async () => {
@@ -122,64 +114,15 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({ onClose, onSuccess }) => 
         Créer un compte d'administration
       </h2>
       <form className="space-y-6">
-        <FloatingInput
-          type="text"
-          label="Nom"
-          name="nom"
-          value={formData.nom}
-          onChange={handleChange}
-          required
-        />
-        <FloatingInput
-          type="text"
-          label="Prénom"
-          name="prenom"
-          value={formData.prenom}
-          onChange={handleChange}
-          required
-        />
-        <FloatingInput
-          type="text"
-          label="Pseudo"
-          name="pseudo"
-          value={formData.pseudo}
-          onChange={handleChange}
-          required
-        />
-        <FloatingInput
-          type="email"
-          label="Email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <FloatingInput
-          type="password"
-          label="Mot de passe"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <FloatingInput
-          type="password"
-          label="Confirmation du mot de passe"
-          name="password_confirmation"
-          value={formData.password_confirmation}
-          onChange={handleChange}
-          required
-        />
-        <FloatingInput
-          type="text"
-          label="Code postal"
-          name="code_postal"
-          value={formData.code_postal}
-          onChange={handleChange}
-          required
-        />
+        <FloatingInput type="text" label="Nom" name="nom" value={formData.nom} onChange={handleChange} required />
+        <FloatingInput type="text" label="Prénom" name="prenom" value={formData.prenom} onChange={handleChange} required />
+        <FloatingInput type="text" label="Pseudo" name="pseudo" value={formData.pseudo} onChange={handleChange} required />
+        <FloatingInput type="email" label="Email" name="email" value={formData.email} onChange={handleChange} required />
+        <FloatingInput type="password" label="Mot de passe" name="password" value={formData.password} onChange={handleChange} required />
+        <FloatingInput type="password" label="Confirmation du mot de passe" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} required />
+        <FloatingInput type="text" label="Code postal" name="code_postal" value={formData.code_postal} onChange={handleChange} required />
 
-        <p className="text-sm text-gray-400 mb-1 text-left">Ville</p>
+        <p className="text-sm text-gray-500 mb-1 text-left">Ville</p>
         <SelectBox
           label=""
           name="ville"
