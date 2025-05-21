@@ -2,13 +2,21 @@ import { formatStringDate } from "../../services/utils.ts";
 import { IRessource } from "../../types/Ressource.ts";
 import { FaLock, FaUnlock } from "react-icons/fa";
 import Button from "../Divers/Button.tsx";
-import { RiUserShared2Fill } from "react-icons/ri";
+import { TbUserShare } from "react-icons/tb";
+import { useUser } from "../../contexts/AuthContext.tsx";
+import { useState } from "react";
+import Modal from "../Divers/Modal.tsx";
+import ManageRessourceShare from "./RessourceShares/ManageRessourceShare.tsx";
 
 interface RessourceDetailProps {
   ressource: IRessource;
+  onRefresh?: () => void;
 }
 
 const RessourceDetail = ({ ressource }: RessourceDetailProps) => {
+  const { user } = useUser();
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md">
       <h2 className="text-2xl font-bold text-blue-800 bg-blue-100 px-4 py-2 rounded-md inline-block shadow-sm">
@@ -24,7 +32,7 @@ const RessourceDetail = ({ ressource }: RessourceDetailProps) => {
         <p>
           Catégorie : {ressource.ressource_categorie?.lib_ressource_categorie}
         </p>
-        <p>Type de relation : {ressource.ressource_type?.lib_ressource_type}</p>
+        <p>Type de relation : {ressource.relation_type?.lib_relation_type}</p>
         <div className="flex justify-center items-center gap-1 mt-2 text-sm">
           <span>Ressource </span>
           {ressource.restreint ? (
@@ -63,12 +71,32 @@ const RessourceDetail = ({ ressource }: RessourceDetailProps) => {
       {ressource.restreint ? (
         <div className="mt-10">
           <Button
-            onClick={() => console.log("")}
+            onClick={() => setModalOpen(true)}
             label="Partager"
-            icon={<RiUserShared2Fill size={20} />}
+            icon={<TbUserShare size={20} />}
           />
         </div>
       ) : null}
+
+      {modalOpen && (
+        <Modal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          dismissable={true}
+          position="center"
+        >
+          {user && (
+            <ManageRessourceShare
+              ressource={ressource}
+              user={user}
+              onSubmit={(success) => {
+                if (success) setModalOpen(false);
+              }}
+            />
+          )}
+        </Modal>
+      )}
+
     </div>
   );
 };
