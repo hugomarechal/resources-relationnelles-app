@@ -4,12 +4,18 @@ import { IRessource } from "../../types/Ressource.ts";
 import { ApiResponse } from "../../api/ApiResponse.ts";
 import { get } from "../../api/apiClient";
 import { RxReset } from "react-icons/rx";
+import {
+  FaArrowUpAZ as ArrowUpAZ,
+  FaArrowDownZA as ArrowDownZA,
+} from "react-icons/fa6";
 import Button from "../Divers/Button.tsx";
 import SearchInput from "../Divers/SearchBar/SearchInput.tsx";
 import SearchSelectBox from "../Divers/SearchBar/SearchSelectBox.tsx";
 import { ISelectBoxOption } from "../../types/SelectBoxOption.ts";
 import { IRelationType } from "../../types/RelationType.ts";
 import { IRessourceCategorie } from "../../types/RessourceCategorie.ts";
+import RessourceDetail from "../Ressource/RessourceDetail.tsx";
+import { FaFastBackward } from "react-icons/fa";
 
 const FeedContainer = () => {
   const [ressources, setRessources] = useState<IRessource[]>([]);
@@ -27,7 +33,10 @@ const FeedContainer = () => {
     getRessources();
   }, []);
 
-  //Récupération de toutes les catégories
+  //Tri des ressources
+  const [sortByTitleAsc, setSortByTitleAsc] = useState(true);
+
+  // //Récupération de toutes les catégories
   const [allCategories, setCategories] = useState<IRessourceCategorie[]>([]);
 
   const getAllCategories = async () => {
@@ -95,16 +104,24 @@ const FeedContainer = () => {
     })),
   ];
 
-  const filteredRessources = ressources.filter(
-    (ress) =>
-      ress.titre.toLowerCase().includes(searchTitreRessource.toLowerCase()) &&
-      (!searchCategorie ||
-        String(ress.ressource_categorie.id) === searchCategorie) &&
-      (!searchRelationType ||
-        String(ress.relation_type.id) === searchRelationType) &&
-      (searchRestreint === "-1" ||
-        String(ress.restreint ? 1 : 0) === searchRestreint)
-  );
+  const filteredRessources = ressources
+    .filter(
+      (ress) =>
+        ress.titre.toLowerCase().includes(searchTitreRessource.toLowerCase()) &&
+        (!searchCategorie ||
+          String(ress.ressource_categorie.id) === searchCategorie) &&
+        (!searchRelationType ||
+          String(ress.relation_type.id) === searchRelationType) &&
+        (searchRestreint === "-1" ||
+          String(ress.restreint ? 1 : 0) === searchRestreint)
+    )
+    .sort((a, b) => {
+      if (sortByTitleAsc) {
+        return a.titre.localeCompare(b.titre);
+      } else {
+        return b.titre.localeCompare(a.titre);
+      }
+    });
 
   const restreintOptions: ISelectBoxOption[] = [
     { label: "Toutes", value: "-1" },
@@ -119,53 +136,92 @@ const FeedContainer = () => {
     setsearchRestreint("-1");
   };
 
+  //Détail d'une ressource
+  const [selectedRessource, setSelectedRessource] = useState<IRessource | null>(
+    null
+  );
+
+  const handleConsulter = (ressource: IRessource) => {
+    setSelectedRessource(ressource);
+  };
+
+  const handleRetour = () => {
+    setSelectedRessource(null);
+  };
+
   return (
     <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        {/* Barre de recherche */}
-        <div className="mt-2 mr-0 mb-4 ml-2 flex flex-wrap gap-2">
-          <SearchInput
-            placeholder="Chercher par titre"
-            onChange={handleSearchChange}
-            value={searchTitreRessource}
-            name="search_titre"
+      {selectedRessource ? (
+        <div className="p-4">
+          <Button
+            color="gray"
+            onClick={handleRetour}
+            label="Retour à la liste des ressources"
+            icon={<FaFastBackward />}
           />
-          <SearchSelectBox
-            onChange={handleSearchChange}
-            value={searchCategorie}
-            name="search_ressource_categorie"
-            options={categorieOptions}
-          />
-          <SearchSelectBox
-            onChange={handleSearchChange}
-            value={searchRelationType}
-            name="search_relation_type"
-            options={relationTypeOptions}
-          />
-          <SearchSelectBox
-            onChange={handleSearchChange}
-            value={searchRestreint}
-            name="search_restreint"
-            options={restreintOptions}
-          />
-          <div className="gap-4">
-            <Button
-              icon={<RxReset size={25} />}
-              onClick={resetFilters}
-              color="gray"
-            />
-          </div>
+          <RessourceDetail ressource={selectedRessource} />
         </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredRessources.map((ressource, index) => (
-          <ResourceCard
-            key={ressource.id || index}
-            index={index}
-            ressource={ressource}
-          />
-        ))}
-      </div>
+      ) : (
+        <>
+          {/* Barre de recherche + tri */}
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="mt-2 mr-0 mb-4 ml-2 flex flex-wrap gap-2">
+              <SearchInput
+                placeholder="Chercher par titre"
+                onChange={handleSearchChange}
+                value={searchTitreRessource}
+                name="search_titre"
+              />
+              <SearchSelectBox
+                onChange={handleSearchChange}
+                value={searchCategorie}
+                name="search_ressource_categorie"
+                options={categorieOptions}
+              />
+              <SearchSelectBox
+                onChange={handleSearchChange}
+                value={searchRelationType}
+                name="search_relation_type"
+                options={relationTypeOptions}
+              />
+              <SearchSelectBox
+                onChange={handleSearchChange}
+                value={searchRestreint}
+                name="search_restreint"
+                options={restreintOptions}
+              />
+              <Button
+                icon={<RxReset size={25} />}
+                onClick={resetFilters}
+                color="gray"
+              />
+              <Button
+                icon={
+                  sortByTitleAsc ? (
+                    <ArrowUpAZ size={25} />
+                  ) : (
+                    <ArrowDownZA size={25} />
+                  )
+                }
+                onClick={() => setSortByTitleAsc(!sortByTitleAsc)}
+                color="blue"
+              />
+            </div>
+          </div>
+
+          {/* Cartes de ressources */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredRessources.map((ressource, index) => (
+              <ResourceCard
+                key={ressource.id || index}
+                index={index}
+                ressource={ressource}
+                onConsulter={() => handleConsulter(ressource)}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 };
