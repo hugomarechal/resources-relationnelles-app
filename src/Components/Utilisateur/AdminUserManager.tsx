@@ -5,7 +5,7 @@ import Button from "../Divers/Button";
 import Modal from "../Divers/Modal";
 import AdminRegister from "../Utilisateur/AdminRegister";
 import { API_BASE_URL } from "../../api/apiUrl";
-import { useUser } from "../../contexts/AuthContext";
+import { MdClose } from "react-icons/md";
 
 interface User {
   id: number;
@@ -37,9 +37,27 @@ const AdminUserManager: React.FC = () => {
       setLoading(false);
     }
   };
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(API_BASE_URL + "users", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const result = await res.json();
+      setUsers(result.data);
+    } catch {
+      console.error("Erreur lors de la récupération des utilisateurs.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleUser = async (id: number) => {
     try {
+      await fetch(API_BASE_URL + `admin/users/${id}/toggle`, {
+        method: "PUT",
       await fetch(API_BASE_URL + `admin/users/${id}/toggle`, {
         method: "PUT",
         headers: {
@@ -47,6 +65,8 @@ const AdminUserManager: React.FC = () => {
         },
       });
       fetchUsers(); // recharge la liste après changement
+    } catch {
+      console.error("Erreur lors de l’activation/désactivation.");
     } catch {
       console.error("Erreur lors de l’activation/désactivation.");
     }
@@ -67,60 +87,52 @@ const AdminUserManager: React.FC = () => {
         Gestion des comptes utilisateurs
       </h2>
 
-      {user?.role_id === 1 && (
-        <div className="mb-5">
-          <Button
-            icon={<FaPlus size={20} />}
-            onClick={() => {
-              setModalFormVisible(true);
-            }}
-          />
-        </div>
-      )}
-      {loading ? (
-        <p className="text-center text-gray-500">
-          Chargement des utilisateurs...
-        </p>
-      ) : (
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead>
-            <tr>
-              <th scope="col" className="px-6 py-2">
-                Nom
-              </th>
-              <th scope="col" className="px-6 py-2">
-                Prénom
-              </th>
-              <th scope="col" className="px-6 py-2">
-                Email
-              </th>
-              <th scope="col" className="px-2 py-2">
-                Actif
-              </th>
+      <div className="mb-5">
+        <Button
+          icon={<FaPlus size={20} />}
+          onClick={() => {
+            setModalFormVisible(true);
+          }}
+        />
+      </div>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead>
+          <tr>
+            <th scope="col" className="px-6 py-2">
+              Nom
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Prénom
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Email
+            </th>
+            <th scope="col" className="px-2 py-2">
+              Actif
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.slice(0, 50).map((user) => (
+            <tr
+              key={user.id}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td className="px-6 py-2">{user.nom}</td>
+              <td className="px-6 py-2">{user.prenom}</td>
+              <td className="px-6 py-2">{user.email}</td>
+              <td className="px-2 py-2">
+                {
+                  <SwitchToggle
+                    checked={user.actif}
+                    onToggle={() => toggleUser(user.id)}
+                  />
+                }
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {users.slice(0, 50).map((user) => (
-              <tr
-                key={user.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <td className="px-6 py-2">{user.nom}</td>
-                <td className="px-6 py-2">{user.prenom}</td>
-                <td className="px-6 py-2">{user.email}</td>
-                <td className="px-2 py-2">
-                  {
-                    <SwitchToggle
-                      checked={user.actif}
-                      onToggle={() => toggleUser(user.id)}
-                    />
-                  }
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
       {modalFormVisible && (
         <Modal
           isOpen={modalFormVisible}
@@ -129,10 +141,7 @@ const AdminUserManager: React.FC = () => {
           position="center"
         >
           <div className="text-black p-4">
-            <AdminRegister
-              onClose={() => setModalFormVisible(false)}
-              onSuccess={handleRegisterSuccess}
-            />
+            <AdminRegister onClose={() => setModalFormVisible(false)} />
           </div>
         </Modal>
       )}
