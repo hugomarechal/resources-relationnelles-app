@@ -71,8 +71,8 @@ const AdminRegister: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-800 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center text-gray-100">Créer un compte administrateur</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-10 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-10">Créer un compte administrateur</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <FloatingInput type="text" label="Nom" name="nom" value={formData.nom} onChange={handleChange} required />
         <FloatingInput type="text" label="Prénom" name="prenom" value={formData.prenom} onChange={handleChange} required />

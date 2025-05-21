@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import SwitchToggle from '../Divers/SwitchToggle';
 import { FaPlus } from 'react-icons/fa';
 import Button from '../Divers/Button';
+import Modal from '../Divers/Modal'; 
+import AdminRegister from '../Utilisateur/AdminRegister'; 
 
 interface User {
   id: number;
@@ -14,6 +16,7 @@ interface User {
 const AdminUserManager: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const [modalFormVisible, setModalFormVisible] = useState(false);
 
  const fetchUsers = async () => {
   try {
@@ -60,25 +63,10 @@ const AdminUserManager: React.FC = () => {
         <Button
           icon={<FaPlus size={20} />}
           onClick={() => {
-            console.log("Bonjour");
+            setModalFormVisible(true);
           }}
         />
       </div>
-
-      <tr>
-        <th scope="col" className="px-6 py-4">
-          Libellé
-        </th>
-        <th scope="col" className="px-6 py-4">
-          Actif
-        </th>
-        <th scope="col" className="px-6 py-4">
-          <span className="sr-only">Modifier</span>
-        </th>
-        <th scope="col" className="px-6 py-4">
-          <span className="sr-only">Supprimer</span>
-        </th>
-      </tr>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead>
           <tr>
@@ -106,15 +94,38 @@ const AdminUserManager: React.FC = () => {
               <td className="px-6 py-2">{user.prenom}</td>
               <td className="px-6 py-2">{user.email}</td>
               <td className="px-2 py-2">
+                { 
                 <SwitchToggle
                   checked={user.actif}
                   onToggle={() => toggleUser(user.id)}
                 />
+                }
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {modalFormVisible && (
+  <Modal
+    isOpen={modalFormVisible}
+    onClose={() => setModalFormVisible(false)}
+    dismissable={true}
+    position="center"
+  >
+    <div className="text-black p-4">
+      <h3 className="text-xl font-semibold">Création d’un compte</h3>
+      <AdminRegister />
+
+      <button
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+        onClick={() => setModalFormVisible(false)}
+      >
+        Fermer
+      </button>
+    </div>
+  </Modal>
+)}
+
     </div>
   );
 };
