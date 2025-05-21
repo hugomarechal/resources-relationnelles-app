@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import {useUser} from "../../contexts/AuthContext.tsx";
 
 // Interfaces
 interface NavItem {
@@ -22,13 +23,11 @@ const adminMenuChoices: AdminChoice[] = [
   { key: "categories", label: "Gestion des catégories" },
   { key: "ressources", label: "Gestion des ressources" },
   { key: "users", label: "Gestion des utilisateurs" },
-  { key: "comments", label: "Gestion des commentaires" },
+  //{ key: "comments", label: "Gestion des commentaires" },
 ];
 
-// Simule l'état d'admin
-const isAdmin = true;
+const Navbar: React.FC = ({isAdmin, setCurrentLayout, setAdminOption}) => {
 
-const Navbar: React.FC = ({setCurrentLayout, setAdminOption}) => {
   const [adminOpen, setAdminOpen] = useState(false);
   const adminRef = useRef<HTMLDivElement>(null);
 
@@ -216,7 +215,7 @@ const Navbar: React.FC = ({setCurrentLayout, setAdminOption}) => {
                         key={choice.key}
                         onClick={() => {
                           setAdminOpen(false);
-                          onAdminChoice(choice.label);
+                          onAdminChoice(choice.key);
                         }}
                         className="block w-full text-left px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-100 transition"
                       >

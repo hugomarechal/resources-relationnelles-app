@@ -13,17 +13,18 @@ interface ShareRessourceFormProps {
 const ManageRessourceShare = (props: ShareRessourceFormProps) => {
   const [refreshPartages, setRefreshPartages] = useState(false);
 
-const triggerRefresh = () => {
-  setRefreshPartages((prev) => !prev);
-};
+  const triggerRefresh = () => {
+    setRefreshPartages((prev) => !prev);
+  };
 
   return (
     <>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 md:p-5 border-b bg-gray-600rounded-t dark:border-gray-600 border-gray-200">
+      <div className="p-4 md:p-5 border-b bg-gray-600rounded-t dark:border-gray-600 border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Partage ressource privée {props.ressource.titre}
+          Partage ressource privée :
         </h3>
+        <h4>{props.ressource.titre}</h4>
       </div>
 
       {/* Body */}

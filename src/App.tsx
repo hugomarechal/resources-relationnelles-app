@@ -11,11 +11,6 @@ import { useState } from "react";
 import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
 import {useUser} from "./contexts/AuthContext.tsx";
 
-import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
-import Login from "./Components/Utilisateur/Login.tsx";
-import LogoutButton from "./Components/Utilisateur/LogoutButton";
-import AdminRegister from "./Components/Utilisateur/AdminRegister.tsx";
-
 function App() {
 
     const { user } = useUser();
@@ -43,7 +38,7 @@ function App() {
     <>
       <Header />
       {getCurrentLayout()}
-      <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
+      <Navbar isAdmin={isAdmin} setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
       <Footer />
     </>
   );
