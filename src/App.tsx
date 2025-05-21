@@ -1,11 +1,9 @@
 import "./App.css";
-import Footer from "./Components/LayoutItems/Footer";
 import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
-import AuthPage from "./Components/Utilisateur/AuthPage";
 import FeedContainer from "./Components/LayoutItems/FeedContainer.tsx";
-import ManageRessources from "./Components/Ressource/ManageRessources.tsx";
 import { useState } from "react";
+import Footer from "./Components/LayoutItems/footer.tsx";
 
 /*type User = {
   id: number;
@@ -23,22 +21,21 @@ import { useState } from "react";
 };*/
 
 function App() {
+  const [user, setUser] = useState(null);
+  console.log(user);
 
-const [user, setUser] = useState(null);
-console.log(user);
-
-return (
+  return (
     <>
-    <Header/>
-      <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-          (RE)SOURCES RELATIONNELLES
-        </span>
-      </h1>
-        <FeedContainer/>
-    {/*    <ManageRessources/>*/}
+      <div className="mb-5">
+        <Header />
+      </div>
+
+      <FeedContainer />
+      <Navbar />
+
+      <Footer />
     </>
   );
-};
+}
 
 export default App;
