@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SwitchToggle from '../Divers/SwitchToggle';
+import { FaPlus } from 'react-icons/fa';
+import Button from '../Divers/Button';
 
 interface User {
   id: number;
@@ -50,35 +52,69 @@ const AdminUserManager: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-6">Gestion des comptes utilisateurs</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        Gestion des comptes utilisateurs
+      </h2>
 
-      
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b bg-gray-100">
-              <th className="p-2">Nom</th>
-              <th className="p-2">Prénom</th>
-              <th className="p-2">Email</th>
-              <th className="p-2">Actif</th>
+      <div className="mb-5">
+        <Button
+          icon={<FaPlus size={20} />}
+          onClick={() => {
+            console.log("Bonjour");
+          }}
+        />
+      </div>
+
+      <tr>
+        <th scope="col" className="px-6 py-4">
+          Libellé
+        </th>
+        <th scope="col" className="px-6 py-4">
+          Actif
+        </th>
+        <th scope="col" className="px-6 py-4">
+          <span className="sr-only">Modifier</span>
+        </th>
+        <th scope="col" className="px-6 py-4">
+          <span className="sr-only">Supprimer</span>
+        </th>
+      </tr>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead>
+          <tr>
+            <th scope="col" className="px-6 py-2">
+              Nom
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Prénom
+            </th>
+            <th scope="col" className="px-6 py-2">
+              Email
+            </th>
+            <th scope="col" className="px-2 py-2">
+              Actif
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.slice(0, 50).map((user) => (
+            <tr
+              key={user.id}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td className="px-6 py-2">{user.nom}</td>
+              <td className="px-6 py-2">{user.prenom}</td>
+              <td className="px-6 py-2">{user.email}</td>
+              <td className="px-2 py-2">
+                <SwitchToggle
+                  checked={user.actif}
+                  onToggle={() => toggleUser(user.id)}
+                />
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {users.slice(0, 50).map((user) => (
-              <tr key={user.id} className="border-b hover:bg-gray-50">
-                <td className="p-2">{user.nom}</td>
-                <td className="p-2">{user.prenom}</td>
-                <td className="p-2">{user.email}</td>
-                <td className="p-2">
-                  <SwitchToggle
-                    checked={user.actif}
-                    onToggle={() => toggleUser(user.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
