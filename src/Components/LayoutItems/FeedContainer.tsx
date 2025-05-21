@@ -15,7 +15,7 @@ import { ISelectBoxOption } from "../../types/SelectBoxOption.ts";
 import { IRelationType } from "../../types/RelationType.ts";
 import { IRessourceCategorie } from "../../types/RessourceCategorie.ts";
 import RessourceDetail from "../Ressource/RessourceDetail.tsx";
-import { FaFastBackward } from "react-icons/fa";
+import { FaBackward } from "react-icons/fa";
 
 const FeedContainer = () => {
   const [ressources, setRessources] = useState<IRessource[]>([]);
@@ -124,7 +124,7 @@ const FeedContainer = () => {
     });
 
   const restreintOptions: ISelectBoxOption[] = [
-    { label: "Toutes", value: "-1" },
+    { label: "Toute visibilité", value: "-1" },
     { label: "Privée", value: "1" },
     { label: "Publique", value: "0" },
   ];
@@ -153,18 +153,21 @@ const FeedContainer = () => {
     <>
       {selectedRessource ? (
         <div className="p-4">
-          <Button
-            color="gray"
-            onClick={handleRetour}
-            label="Retour à la liste des ressources"
-            icon={<FaFastBackward />}
-          />
           <RessourceDetail ressource={selectedRessource} />
+
+          <div className="mt-6 flex justify-center">
+            <Button
+              color="gray"
+              onClick={handleRetour}
+              label="Retour liste ressources"
+              icon={<FaBackward />}
+            />
+          </div>
         </div>
       ) : (
         <>
           {/* Barre de recherche + tri */}
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-3">
             <div className="mt-2 mr-0 mb-4 ml-2 flex flex-wrap gap-2">
               <SearchInput
                 placeholder="Chercher par titre"
