@@ -9,6 +9,7 @@ import ProfileLayout from "./Components/LayoutItems/ProfileLayout.tsx";
 import AdminLayout from "./Components/LayoutItems/AdminLayout.tsx";
 import { useState } from "react";
 import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
+import {useUser} from "./contexts/AuthContext.tsx";
 
 function App() {
 
