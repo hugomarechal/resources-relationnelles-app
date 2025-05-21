@@ -1,8 +1,10 @@
+import UserUpdate from "../Utilisateur/UserUpdate";
+
 const ProfileLayout = () => {
 
     return (
         <>
-            <h1>profile/</h1>
+          <UserUpdate />
         </>
     );
 };

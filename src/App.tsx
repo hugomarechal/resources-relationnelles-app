@@ -11,6 +11,7 @@ import { useState } from "react";
 import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
 import {useUser} from "./contexts/AuthContext.tsx";
 
+
 function App() {
 
     const { user } = useUser();
