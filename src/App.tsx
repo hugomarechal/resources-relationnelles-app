@@ -1,43 +1,46 @@
 import "./App.css";
+
 import Footer from "./Components/LayoutItems/Footer";
 import Header from "./Components/LayoutItems/Header";
 import Navbar from "./Components/LayoutItems/Navbar";
-import AuthPage from "./Components/Utilisateur/AuthPage";
 import FeedContainer from "./Components/LayoutItems/FeedContainer.tsx";
-import ManageRessources from "./Components/Ressource/ManageRessources.tsx";
+import NewResourceLayout from "./Components/LayoutItems/NewResourceLayout.tsx";
+import ProfileLayout from "./Components/LayoutItems/ProfileLayout.tsx";
+import AdminLayout from "./Components/LayoutItems/AdminLayout.tsx";
 import { useState } from "react";
-
-/*type User = {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  email_verified_at: string | null;
-  pseudo: string;
-  code_postal: string;
-  ville: string;
-  actif: number;
-  role_id: number;
-  created_at: string;
-  updated_at: string;
-};*/
+import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
+import {useUser} from "./contexts/AuthContext.tsx";
 
 
 function App() {
 
-const [user, setUser] = useState(null);
-console.log(user);
+    const { user } = useUser();
+    const [currentLayout, setCurrentLayout] = useState('home');
+    const [adminOption, setAdminOption] = useState(null);
+    const isLoggedIn = user !== null;
+    const isAdmin = user?.role_id === 1 || user?.role_id=== 2;
 
-return (
+    const getCurrentLayout = () => {
+        switch (currentLayout) {
+            case 'home':
+                return <FeedContainer/>;
+            case 'new':
+                return isLoggedIn ? <NewResourceLayout/> : <AuthPage/>;
+            case 'profile':
+                return isLoggedIn ? <ProfileLayout/> : <AuthPage/>;
+            case 'admin':
+                return isLoggedIn && isAdmin ? <AdminLayout adminOption={adminOption} /> : <AuthPage />;
+            default:
+                return <FeedContainer/>;
+        }
+    }
+
+  return (
     <>
-    <Header/>
-      <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-          (RE)SOURCES RELATIONNELLES
-        </span>
-      </h1>
-        <FeedContainer/>
-    {/*    <ManageRessources/>*/}
+      <Header />
+      {getCurrentLayout()}
+      <Navbar isAdmin={isAdmin} setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
+      <Footer />
     </>
   );
 }

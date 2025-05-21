@@ -10,6 +10,7 @@ export interface IUser {
     code_postal: string;
     ville: string;
     actif: boolean;
+    role_id: number;
 
-    role: IRole;
+    role?: IRole;
 }

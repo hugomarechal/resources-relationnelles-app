@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
 import FloatingInput from "../Form/FloatingInput";
 import { SelectBox } from "../Form/SelectBox";
 import { ISelectBoxOption } from "../../types/SelectBoxOption";
-import { API_BASE_URL } from "../../api/apiUrl";
+import api from "../../api/apiConfiguration";
 import Button from "../Divers/Button";
-import { FaSave } from "react-icons/fa";
+import { IRole } from "../../types/Role";
+import { get } from "../../api/apiClient";
+import { ApiResponse } from "../../api/ApiResponse";
 
-interface RegisterProps {
-  onRegisterSuccess: (success: boolean) => void;
+const token = localStorage.getItem("token");
+
+interface AdminRegisterProps {
+  onSuccess: () => void;
 }
 
-const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
+const AdminRegister: React.FC<AdminRegisterProps> = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -20,10 +26,11 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
     password_confirmation: "",
     code_postal: "",
     ville: "",
+    role_id: "2",
   });
 
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -32,49 +39,41 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
   };
 
   const handleSubmit = async () => {
-    setMessage("");
     setError("");
+    setLoading(true);
 
     const payload = {
       ...formData,
       actif: true,
-      role_id: 4,
     };
 
     try {
-      const res = await fetch(API_BASE_URL + "users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      await api.post("users", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(
-          data.message || "Erreur lors de la création du compte."
-        );
-      }
-
-      setMessage(
-        "Compte créé avec succès ! Vous pouvez maintenant vous connecter."
-      );
-      setFormData({
-        nom: "",
-        prenom: "",
-        pseudo: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        code_postal: "",
-        ville: "",
-      });
-      onRegisterSuccess(true);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onSuccess();
     } catch (err: any) {
-      setError(err.message || "Erreur inconnue.");
+      setError(
+        err.response?.data?.message || "Erreur lors de la création du compte."
+      );
+    } finally {
+      setLoading(false);
     }
   };
+
+  //Récupération de tous les rôles
+  const [roles, setRoles] = useState<IRole[]>([]);
+  const getRoles = async () => {
+    const response = await get<ApiResponse<IRole[]>>("roles");
+    if (response?.status && response.data) {
+      setRoles(response.data);
+    }
+  };
+  useEffect(() => {
+    getRoles();
+  }, []);
 
   const villesOptions: ISelectBoxOption[] = [
     { label: "Paris", value: "Paris" },
@@ -82,9 +81,18 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
     { label: "Marseille", value: "Marseille" },
   ];
 
+  const rolesOptions: ISelectBoxOption[] = [
+    ...roles.map((role) => ({
+      label: role.name,
+      value: String(role.id),
+    })),
+  ];
+
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Créer un compte</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-10 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-10">
+        Créer un compte administrateur
+      </h2>
       <form className="space-y-6">
         <FloatingInput
           type="text"
@@ -143,29 +151,32 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
           required
         />
 
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-1 text-left">
-          {" "}
-          Ville{" "}
-        </p>
+        <p className="text-sm text-gray-400 mb-1 text-left">Ville</p>
         <SelectBox
           label=""
           name="ville"
           value={formData.ville}
           options={villesOptions}
           onChange={handleChange}
-          required={true}
+          required
+        />
+
+        <p className="text-sm text-gray-400 mb-1 text-left">Rôle</p>
+        <SelectBox
+          label=""
+          name="role_id"
+          value={formData.role_id}
+          options={rolesOptions}
+          onChange={handleChange}
+          required
         />
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        {message && <p className="text-green-600 text-sm">{message}</p>}
-        <Button
-          onClick={handleSubmit}
-          label="Créer un compte"
-          icon={<FaSave className="w-4 h-4 mr-2" />}
-        />
+
+        <Button onClick={handleSubmit} label="Créer un compte" />
       </form>
     </div>
   );
 };
 
-export default Register;
+export default AdminRegister;
