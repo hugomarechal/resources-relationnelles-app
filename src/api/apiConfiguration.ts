@@ -2,8 +2,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-//  baseURL: 'http://localhost:8080/resources-relationnelles/public/api/', //Val
-  baseURL: 'http://localhost/resources-relationnelles/public/api/', //Vinc
+ //baseURL: 'http://localhost:8080/resources-relationnelles/public/api/', //Val
+  //baseURL: 'http://localhost/resources-relationnelles/public/api/', //Vinc
+  baseURL: 'http://localhost:8000/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

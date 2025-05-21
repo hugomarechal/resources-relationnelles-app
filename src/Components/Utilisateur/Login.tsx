@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import FloatingInput from '../Form/FloatingInput';
+import {useUser} from "../../contexts/AuthContext.tsx";
 
 
-const Login: React.FC = ({setUser}) => {
+const Login: React.FC = () => {
+  const {setUser} = useUser();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -46,7 +48,6 @@ const Login: React.FC = ({setUser}) => {
         localStorage.setItem('token', data.token);
       }
       if (data.user) {
-        //localStorage.setItem('user', JSON.stringify(data.user));
         setUser(data.user);
       }
       

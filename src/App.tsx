@@ -8,22 +8,27 @@ import NewResourceLayout from "./Components/LayoutItems/NewResourceLayout.tsx";
 import ProfileLayout from "./Components/LayoutItems/ProfileLayout.tsx";
 import AdminLayout from "./Components/LayoutItems/AdminLayout.tsx";
 import { useState } from "react";
+import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
+import {useUser} from "./contexts/AuthContext.tsx";
 
 function App() {
-  //const [user, setUser] = useState(null);
+
+    const { user } = useUser();
     const [currentLayout, setCurrentLayout] = useState('home');
     const [adminOption, setAdminOption] = useState(null);
+    const isLoggedIn = user !== null;
+    const isAdmin = user?.role.id === 1 || user?.role.id=== 2;
 
     const getCurrentLayout = () => {
         switch (currentLayout) {
             case 'home':
                 return <FeedContainer/>;
             case 'new':
-                return <NewResourceLayout/>
+                return isLoggedIn ? <NewResourceLayout/> : <AuthPage/>;
             case 'profile':
-                return <ProfileLayout/>
+                return isLoggedIn ? <ProfileLayout/> : <AuthPage/>;
             case 'admin':
-                return <AdminLayout adminOption={adminOption}/>
+                return isLoggedIn && isAdmin ? <AdminLayout adminOption={adminOption} /> : <AuthPage />;
             default:
                 return <FeedContainer/>;
         }
@@ -32,11 +37,8 @@ function App() {
   return (
     <>
       <Header />
-        {
-            getCurrentLayout()
-        }
+      {getCurrentLayout()}
       <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
-
       <Footer />
     </>
   );
