@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import FloatingInput from "../Form/FloatingInput";
-import { SelectBox } from "../Form/SelectBox";
-import { ISelectBoxOption } from "../../types/SelectBoxOption";
-import api from "../../api/apiConfiguration";
-import { IRole } from "../../types/Role";
-import { get } from "../../api/apiClient";
-import { ApiResponse } from "../../api/ApiResponse";
-import Button from "../Divers/Button";
 import { FaSave } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import Button from "../Divers/Button";
+import { SelectBox } from "../Form/SelectBox";
+
 const token = localStorage.getItem("token");
 
 interface AdminRegisterProps {
   onClose: () => void;
-  onSuccess: () => void; // nouvelle prop
+  onSuccess: () => void;
 }
 
-const AdminRegister: React.FC<AdminRegisterProps> = ({
-  onClose,
-  onSuccess,
-}) => {
+const AdminRegister: React.FC<AdminRegisterProps> = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -56,6 +49,7 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({
           Authorization: `Bearer ${token}`,
         },
       });
+
       setMessage("Compte créé avec succès !");
       setFormData({
         nom: "",
@@ -68,9 +62,9 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({
         ville: "",
         role_id: "2",
       });
-      onSuccess();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onSuccess();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(
         err.response?.data?.message || "Erreur lors de la création du compte."
@@ -103,18 +97,28 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({
 
   useEffect(() => {
     getAllCategories();
+
+  const [roles, setRoles] = useState<IRole[]>([]);
+
+  const getAllRoles = async () => {
+    const response = await get<ApiResponse<IRole[]>>("roles");
+    if (response?.status && response.data) {
+      setRoles(response.data);
+    }
+  };
+
+  useEffect(() => {
+    getAllRoles();
   }, []);
 
-  const rolesOptions: ISelectBoxOption[] = [
-    ...roles.map((role) => ({
-      label: role.name,
-      value: String(role.id),
-    })),
-  ];
+  const rolesOptions: ISelectBoxOption[] = roles.map((role) => ({
+    label: role.name,
+    value: String(role.id),
+  }));
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-gray-10 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center text-gray-10">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
         Créer un compte d'administration
       </h2>
       <form className="space-y-6">
@@ -185,7 +189,7 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({
           required
         />
 
-        <p className="text-sm text-gray-400 mb-1 text-left">Rôle</p>
+        <p className="text-sm text-gray-500 mb-1 text-left">Rôle</p>
         <SelectBox
           label=""
           name="role_id"
@@ -199,16 +203,8 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({
         {message && <p className="text-green-600 text-sm">{message}</p>}
 
         <div className="flex justify-center gap-4">
-          <Button
-            label="Enregistrer"
-            icon={<FaSave className="w-4 h-4 mr-2" />}
-            onClick={handleSubmit}
-          />
-          <Button
-            label="Fermer"
-            icon={<MdClose size={25} />}
-            onClick={onClose}
-          />
+          <Button label="Enregistrer" icon={<FaSave className="w-4 h-4 mr-2" />} onClick={handleSubmit} />
+          <Button label="Fermer" icon={<MdClose size={25} />} onClick={onClose} />
         </div>
       </form>
     </div>
