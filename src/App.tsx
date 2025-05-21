@@ -15,6 +15,7 @@ import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
 import Login from "./Components/Utilisateur/Login.tsx";
 import LogoutButton from "./Components/Utilisateur/LogoutButton";
 import AdminRegister from "./Components/Utilisateur/AdminRegister.tsx";
+import UserUpdate from "./Components/Utilisateur/UserUpdate.tsx";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
   return (
     <>
       <Header />
+      <UserUpdate />
       {getCurrentLayout()}
       <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
       <Footer />
