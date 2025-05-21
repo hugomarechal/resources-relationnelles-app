@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FloatingInput from "../Form/FloatingInput";
 import { API_BASE_URL } from "../../api/apiUrl";
+import LogoutButton from "./LogoutButton";
 
 const UserUpdate: React.FC = () => {
   const [userData, setUserData] = useState<any>(null);
@@ -90,7 +91,7 @@ const UserUpdate: React.FC = () => {
           </div>
         ))}
 
-      
+      <LogoutButton />
 
       {message && <p className="text-green-400 text-sm mt-4">{message}</p>}
       {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
