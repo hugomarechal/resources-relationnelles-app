@@ -12,5 +12,5 @@ export interface IUser {
     actif: boolean;
     role_id: number;
 
-    role: IRole;
+    role?: IRole;
 }
