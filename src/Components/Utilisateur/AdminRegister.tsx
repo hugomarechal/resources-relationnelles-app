@@ -3,6 +3,7 @@ import FloatingInput from '../Form/FloatingInput';
 import { SelectBox } from '../Form/SelectBox';
 import { ISelectBoxOption } from '../../types/SelectBoxOption';
 import api from '../../api/apiConfiguration';
+const token = localStorage.getItem('token');
 
 const AdminRegister: React.FC = () => {
   const [formData, setFormData] = useState({
