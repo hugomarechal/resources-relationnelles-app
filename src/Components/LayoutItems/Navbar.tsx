@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import {useUser} from "../../contexts/AuthContext.tsx";
 
 // Interfaces
 interface NavItem {
@@ -25,10 +26,8 @@ const adminMenuChoices: AdminChoice[] = [
   { key: "comments", label: "Gestion des commentaires" },
 ];
 
-// Simule l'état d'admin
-const isAdmin = true;
+const Navbar: React.FC = ({isAdmin, setCurrentLayout, setAdminOption}) => {
 
-const Navbar: React.FC = ({setCurrentLayout, setAdminOption}) => {
   const [adminOpen, setAdminOpen] = useState(false);
   const adminRef = useRef<HTMLDivElement>(null);
 
