@@ -13,9 +13,13 @@ const token = localStorage.getItem("token");
 
 interface AdminRegisterProps {
   onClose: () => void;
+  onSuccess: () => void; // nouvelle prop
 }
 
-const AdminRegister: React.FC<AdminRegisterProps> = ({ onClose }) => {
+const AdminRegister: React.FC<AdminRegisterProps> = ({
+  onClose,
+  onSuccess,
+}) => {
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -62,8 +66,10 @@ const AdminRegister: React.FC<AdminRegisterProps> = ({ onClose }) => {
         password_confirmation: "",
         code_postal: "",
         ville: "",
-        role_id: "4",
+        role_id: "2",
       });
+      onSuccess();
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(

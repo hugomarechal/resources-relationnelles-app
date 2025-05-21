@@ -5,7 +5,7 @@ import Button from "../Divers/Button";
 import Modal from "../Divers/Modal";
 import AdminRegister from "../Utilisateur/AdminRegister";
 import { API_BASE_URL } from "../../api/apiUrl";
-import { MdClose } from "react-icons/md";
+import { useUser } from "../../contexts/AuthContext";
 
 interface User {
   id: number;
@@ -16,6 +16,7 @@ interface User {
 }
 
 const AdminUserManager: React.FC = () => {
+  const { user } = useUser();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalFormVisible, setModalFormVisible] = useState(false);
@@ -55,58 +56,71 @@ const AdminUserManager: React.FC = () => {
     fetchUsers();
   }, []);
 
+  const handleRegisterSuccess = () => {
+    setModalFormVisible(false);
+    fetchUsers();
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-6">
         Gestion des comptes utilisateurs
       </h2>
 
-      <div className="mb-5">
-        <Button
-          icon={<FaPlus size={20} />}
-          onClick={() => {
-            setModalFormVisible(true);
-          }}
-        />
-      </div>
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead>
-          <tr>
-            <th scope="col" className="px-6 py-2">
-              Nom
-            </th>
-            <th scope="col" className="px-6 py-2">
-              Prénom
-            </th>
-            <th scope="col" className="px-6 py-2">
-              Email
-            </th>
-            <th scope="col" className="px-2 py-2">
-              Actif
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.slice(0, 50).map((user) => (
-            <tr
-              key={user.id}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td className="px-6 py-2">{user.nom}</td>
-              <td className="px-6 py-2">{user.prenom}</td>
-              <td className="px-6 py-2">{user.email}</td>
-              <td className="px-2 py-2">
-                {
-                  <SwitchToggle
-                    checked={user.actif}
-                    onToggle={() => toggleUser(user.id)}
-                  />
-                }
-              </td>
+      {user?.role_id === 1 && (
+        <div className="mb-5">
+          <Button
+            icon={<FaPlus size={20} />}
+            onClick={() => {
+              setModalFormVisible(true);
+            }}
+          />
+        </div>
+      )}
+      {loading ? (
+        <p className="text-center text-gray-500">
+          Chargement des utilisateurs...
+        </p>
+      ) : (
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead>
+            <tr>
+              <th scope="col" className="px-6 py-2">
+                Nom
+              </th>
+              <th scope="col" className="px-6 py-2">
+                Prénom
+              </th>
+              <th scope="col" className="px-6 py-2">
+                Email
+              </th>
+              <th scope="col" className="px-2 py-2">
+                Actif
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.slice(0, 50).map((user) => (
+              <tr
+                key={user.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                <td className="px-6 py-2">{user.nom}</td>
+                <td className="px-6 py-2">{user.prenom}</td>
+                <td className="px-6 py-2">{user.email}</td>
+                <td className="px-2 py-2">
+                  {
+                    <SwitchToggle
+                      checked={user.actif}
+                      onToggle={() => toggleUser(user.id)}
+                    />
+                  }
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       {modalFormVisible && (
         <Modal
           isOpen={modalFormVisible}
@@ -115,7 +129,10 @@ const AdminUserManager: React.FC = () => {
           position="center"
         >
           <div className="text-black p-4">
-            <AdminRegister onClose={() => setModalFormVisible(false)} />
+            <AdminRegister
+              onClose={() => setModalFormVisible(false)}
+              onSuccess={handleRegisterSuccess}
+            />
           </div>
         </Modal>
       )}

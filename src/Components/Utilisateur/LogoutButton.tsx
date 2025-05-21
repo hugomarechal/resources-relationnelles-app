@@ -10,7 +10,6 @@ const LogoutButton: React.FC = () => {
     if (!token) {
       console.warn("Token introuvable, suppression locale seulement.");
       localStorage.removeItem("user");
-      window.location.href = "/login";
       return;
     }
 
@@ -30,7 +29,6 @@ const LogoutButton: React.FC = () => {
 
       if (!res.ok) {
         console.error("Erreur lors de la déconnexion (backend).");
-        window.location.href = "/login";
         return;
       }
 
@@ -40,7 +38,6 @@ const LogoutButton: React.FC = () => {
       console.error("Erreur réseau lors du logout", err);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "/login";
     }
   };
 
