@@ -68,7 +68,7 @@ const RessourceDetail = ({ ressource }: RessourceDetailProps) => {
         </div>
       )}
 
-      {ressource.restreint ? (
+      {ressource.restreint && user?.id === ressource.user.id ? (
         <div className="mt-10">
           <Button
             onClick={() => setModalOpen(true)}
