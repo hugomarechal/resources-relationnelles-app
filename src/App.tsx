@@ -43,7 +43,6 @@ function App() {
   return (
     <>
       <Header />
-      <UserUpdate />
       {getCurrentLayout()}
       <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
       <Footer />
