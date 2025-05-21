@@ -76,7 +76,7 @@ const UserUpdate: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-gray-30 rounded shadow text-gray-900">
+    <div className="max-w-xl mx-auto my-10 p-6 bg-gray-30 rounded shadow text-gray-900">
       <h2 className="text-2xl font-bold mb-6 text-center">
         Mon merveilleux profil
       </h2>

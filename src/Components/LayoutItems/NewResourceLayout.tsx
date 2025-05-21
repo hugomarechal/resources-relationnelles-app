@@ -1,8 +1,10 @@
+import ManageRessources from "../Ressource/ManageRessources.tsx";
+
 const NewResourceLayout = () => {
 
     return (
         <>
-            <h1>new resource form</h1>
+            <ManageRessources/>
         </>
     );
 };
