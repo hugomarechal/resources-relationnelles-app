@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from "../Divers/Button.tsx";
 
 const LogoutButton: React.FC = () => {
   const handleLogout = async () => {
@@ -42,12 +43,7 @@ const LogoutButton: React.FC = () => {
   };
 
   return (
-    <button
-      onClick={handleLogout}
-      className="bg-gradient-to-r from-sky-400 to-emerald-600 text-white py-2 px-4 rounded hover:opacity-90"
-    >
-      Se déconnecter
-    </button>
+    <Button onClick={handleLogout} color={'red'} label={'Déconnexion'}/>
   );
 };
 

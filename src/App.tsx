@@ -38,7 +38,7 @@ function App() {
     <>
       <Header />
       {getCurrentLayout()}
-      <Navbar setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
+      <Navbar isAdmin={isAdmin} setCurrentLayout={setCurrentLayout} setAdminOption={setAdminOption}/>
       <Footer />
     </>
   );
