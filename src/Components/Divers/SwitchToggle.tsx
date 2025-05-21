@@ -11,8 +11,8 @@ const SwitchToggle: React.FC<SwitchToggleProps> = ({ checked, onToggle }) => {
       onClick={onToggle}
       className={`w-12 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${
         checked
-          ? 'bg-gradient-to-r from-sky-400 to-emerald-600'
-          : 'bg-gray-400'
+          ? 'bg-gradient-to-r from-green-500 via-green-600 to-green-700'
+          : 'bg-gradient-to-r from-red-500 via-red-600 to-red-700'
       }`}
     >
       <div

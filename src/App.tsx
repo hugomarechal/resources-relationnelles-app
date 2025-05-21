@@ -11,6 +11,12 @@ import { useState } from "react";
 import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
 import {useUser} from "./contexts/AuthContext.tsx";
 
+import AdminUserManager from "./Components/Utilisateur/AdminUserManager";
+import Login from "./Components/Utilisateur/Login.tsx";
+import LogoutButton from "./Components/Utilisateur/LogoutButton";
+import AuthPage from "./Components/Utilisateur/AuthPage.tsx";
+import AdminRegister from "./Components/Utilisateur/AdminRegister.tsx";
+
 function App() {
 
     const { user } = useUser();
