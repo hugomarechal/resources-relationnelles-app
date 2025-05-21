@@ -215,7 +215,7 @@ const Navbar: React.FC = ({isAdmin, setCurrentLayout, setAdminOption}) => {
                         key={choice.key}
                         onClick={() => {
                           setAdminOpen(false);
-                          onAdminChoice(choice.label);
+                          onAdminChoice(choice.key);
                         }}
                         className="block w-full text-left px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-100 transition"
                       >
