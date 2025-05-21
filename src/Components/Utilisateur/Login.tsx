@@ -1,36 +1,37 @@
-import React, { useState } from 'react';
-import FloatingInput from '../Form/FloatingInput';
-import {useUser} from "../../contexts/AuthContext.tsx";
-
+import React, { useState } from "react";
+import FloatingInput from "../Form/FloatingInput";
+import { useUser } from "../../contexts/AuthContext.tsx";
+import { API_BASE_URL } from "../../api/apiUrl.ts";
+import { BiLogInCircle } from "react-icons/bi";
+import Button from "../Divers/Button.tsx";
 
 const Login: React.FC = () => {
-  const {setUser} = useUser();
+  const { setUser } = useUser();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
+  const handleSubmit = async () => {
+    setMessage("");
+    setError("");
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      const res = await fetch(API_BASE_URL + "login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      const contentType = res.headers.get('content-type');
-      const isJson = contentType && contentType.includes('application/json');
+      const contentType = res.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
       const data = isJson ? await res.json() : {};
 
       if (!res.ok) {
@@ -39,29 +40,26 @@ const Login: React.FC = () => {
           const allErrors = Object.values(errors).flat();
           throw new Error(allErrors[0]);
         }
-        throw new Error(data.message || 'Échec de la connexion.');
+        throw new Error(data.message || "Échec de la connexion.");
       }
 
-      setMessage('Connexion réussie.');
+      setMessage("Connexion réussie.");
 
       if (data.token) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
       }
       if (data.user) {
         setUser(data.user);
       }
-      
 
-      // Redirection optionnelle
-      // window.location.href = '/dashboard';
-
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err.message || 'Erreur inconnue.');
+      setError(err.message || "Erreur inconnue.");
     }
   };
 
   return (
-    <div className="bg-gray-800 p-6 rounded text-white">
+<div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-md border border-gray-200">
       <h2 className="text-2xl font-bold mb-4 text-center">Connexion</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <FloatingInput
@@ -84,9 +82,12 @@ const Login: React.FC = () => {
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {message && <p className="text-green-600 text-sm">{message}</p>}
 
-        <button type="submit" className="w-full bg-clip bg-gradient-to-r to-emerald-600 from-sky-400 text-white py-2 rounded hover:bg-blue-700">
-          Se connecter
-        </button>
+        <Button
+          label="Se connecter"
+          icon={<BiLogInCircle size={20} />}
+          onClick={handleSubmit}
+        />
+
       </form>
     </div>
   );

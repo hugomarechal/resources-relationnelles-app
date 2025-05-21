@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import FloatingInput from '../Form/FloatingInput';
+import React, { useEffect, useState } from "react";
+import FloatingInput from "../Form/FloatingInput";
+import { API_BASE_URL } from "../../api/apiUrl";
 
 const UserUpdate: React.FC = () => {
   const [userData, setUserData] = useState<any>(null);
   const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    pseudo: '',
-    ville: '',
-    code_postal: ''
+    nom: "",
+    prenom: "",
+    email: "",
+    pseudo: "",
+    ville: "",
+    code_postal: "",
   });
 
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const fetchUser = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/me', {
+      const res = await fetch(API_BASE_URL + "me", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const data = await res.json();
       setUserData(data);
     } catch (err) {
-      setError('Erreur lors de la récupération des données.');
+      setError("Erreur lors de la récupération des données.");
     }
   };
 
@@ -54,48 +55,53 @@ const UserUpdate: React.FC = () => {
     }
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/user/update', {
-        method: 'PUT',
+      const res = await fetch(API_BASE_URL + "update", {
+        method: "PUT",
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Erreur de mise à jour');
+      if (!res.ok) throw new Error(data.message || "Erreur de mise à jour");
 
-      setMessage('Mise à jour réussie');
-      setFormData({ ...formData, ...(field ? { [field]: '' } : {}) });
+      setMessage("Mise à jour réussie");
+      setFormData({ ...formData, ...(field ? { [field]: "" } : {}) });
       fetchUser(); // mettre à jour l'affichage
     } catch (err: any) {
-      setError(err.message || 'Erreur inconnue.');
+      setError(err.message || "Erreur inconnue.");
     }
   };
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 bg-gray-800 rounded shadow text-white">
-      <h2 className="text-2xl font-bold mb-6 text-center">Mettre à jour mon profil</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Mettre à jour mon profil
+      </h2>
 
-      {userData && Object.entries(formData).map(([key, value]) => (
-        <div key={key} className="mb-6">
-          <p className="mb-1 capitalize">{key} actuel : {userData[key]}</p>
-          <FloatingInput
-            type="text"
-            name={key}
-            label={`Modifier ${key}`}
-            value={value}
-            onChange={handleChange}
-          />
-          <button
-            className="mt-2 bg-sky-500 text-white px-4 py-2 rounded"
-            onClick={() => updateField(key)}
-          >
-            Mettre à jour
-          </button>
-        </div>
-      ))}
+      {userData &&
+        Object.entries(formData).map(([key, value]) => (
+          <div key={key} className="mb-6">
+            <p className="mb-1 capitalize">
+              {key} actuel : {userData[key]}
+            </p>
+            <FloatingInput
+              type="text"
+              name={key}
+              label={`Modifier ${key}`}
+              value={value}
+              onChange={handleChange}
+            />
+            <button
+              className="mt-2 bg-sky-500 text-white px-4 py-2 rounded"
+              onClick={() => updateField(key)}
+            >
+              Mettre à jour
+            </button>
+          </div>
+        ))}
 
       <button
         className="mt-6 w-full bg-gradient-to-r from-sky-400 to-emerald-600 text-white py-2 rounded"

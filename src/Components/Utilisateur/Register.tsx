@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import FloatingInput from '../Form/FloatingInput';
 import { SelectBox } from '../Form/SelectBox';
 import { ISelectBoxOption } from '../../types/SelectBoxOption';
+import { API_BASE_URL } from '../../api/apiUrl';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ const Register: React.FC = () => {
     };
 
     try {
-      const res = await fetch('http://localhost:8000/api/users', {
+      const res = await fetch(API_BASE_URL + 'users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -89,7 +90,6 @@ const Register: React.FC = () => {
           onChange={handleChange}
           required={true}
         />
-
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {message && <p className="text-green-600 text-sm">{message}</p>}

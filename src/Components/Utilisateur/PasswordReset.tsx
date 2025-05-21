@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FloatingInput from '../Form/FloatingInput';
+import { API_BASE_URL } from '../../api/apiUrl';
 
 const PasswordReset: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const PasswordReset: React.FC = () => {
     setError('');
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/reset-password', {
+      const res = await fetch(API_BASE_URL + 'reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -41,7 +42,6 @@ const PasswordReset: React.FC = () => {
         }
     throw new Error(data.message || 'Erreur lors de la réinitialisation.');
     }
-
 
       setMessage('Mot de passe réinitialisé avec succès.');
       setFormData({ email: '', password: '', password_confirmation: '' });
