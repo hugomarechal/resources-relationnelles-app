@@ -17,7 +17,7 @@ function App() {
     const [currentLayout, setCurrentLayout] = useState('home');
     const [adminOption, setAdminOption] = useState(null);
     const isLoggedIn = user !== null;
-    const isAdmin = user?.role.id === 1 || user?.role.id=== 2;
+    const isAdmin = user?.role_id === 1 || user?.role_id=== 2;
 
     const getCurrentLayout = () => {
         switch (currentLayout) {
