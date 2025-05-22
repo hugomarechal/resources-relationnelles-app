@@ -20,10 +20,10 @@ import ManageRessources from "../Ressource/ManageRessources.tsx";
 import { useUser } from "../../contexts/AuthContext.tsx";
 
 interface FeedContainerProps {
-  newRessource?: boolean
+  newRessource?: boolean;
 }
 
-const FeedContainer = ({newRessource = false}: FeedContainerProps) => {
+const FeedContainer = ({ newRessource = false }: FeedContainerProps) => {
   const { user } = useUser();
   const userId = user?.id ?? 0;
 
@@ -196,12 +196,15 @@ const FeedContainer = ({newRessource = false}: FeedContainerProps) => {
                 name="search_relation_type"
                 options={relationTypeOptions}
               />
-              <SearchSelectBox
-                onChange={handleSearchChange}
-                value={searchRestreint}
-                name="search_restreint"
-                options={restreintOptions}
-              />
+              {user && user.id > 0 && (
+                <SearchSelectBox
+                  onChange={handleSearchChange}
+                  value={searchRestreint}
+                  name="search_restreint"
+                  options={restreintOptions}
+                />
+              )}
+
               <Button
                 icon={<RxReset size={25} />}
                 onClick={resetFilters}
@@ -234,7 +237,7 @@ const FeedContainer = ({newRessource = false}: FeedContainerProps) => {
           </div>
         </>
       )}
-      {newRessource && <ManageRessources autoShow={newRessource}/>}
+      {newRessource && <ManageRessources autoShow={newRessource} />}
     </>
   );
 };
