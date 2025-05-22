@@ -16,13 +16,17 @@ import { IRelationType } from "../../types/RelationType.ts";
 import { IRessourceCategorie } from "../../types/RessourceCategorie.ts";
 import RessourceDetail from "../Ressource/RessourceDetail.tsx";
 import { FaBackward } from "react-icons/fa";
+import { useUser } from "../../contexts/AuthContext.tsx";
 
 const FeedContainer = () => {
+  const { user } = useUser();
+  const userId = user?.id ?? 0;
+
   const [ressources, setRessources] = useState<IRessource[]>([]);
 
   const getRessources = async () => {
     const response = await get<ApiResponse<IRessource[]>>(
-      "ressources" + "?valide=" + true
+      `ressources?valide=true&catalogue=true&user_id=${userId}`
     );
     if (response?.status && response.data) {
       setRessources(response.data);
@@ -56,7 +60,7 @@ const FeedContainer = () => {
   const [allRelationTypes, setRelationTypes] = useState<IRelationType[]>([]);
   const getAllRelationTypes = async () => {
     const response = await get<ApiResponse<IRelationType[]>>(
-      "relation_types" + "?visible=" + true
+      "relation_types" + "?visible=" + true + "?user_id=" + user?.id
     );
     if (response?.status && response.data) {
       setRelationTypes(response.data);
