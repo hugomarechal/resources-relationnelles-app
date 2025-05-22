@@ -13,10 +13,11 @@ import { IRelationType } from "../../types/RelationType";
 import { useUser } from "../../contexts/AuthContext";
 
 interface ManageRessourceProps {
-  autoShow?: boolean;
+  autoShow?: boolean,
+  setCurrentLayout?: (layout: string) => void
 }
 
-const ManageRessources = ({autoShow = false}:ManageRessourceProps) => {
+const ManageRessources = ({autoShow = false, setCurrentLayout}:ManageRessourceProps) => {
   const { user } = useUser();
 
   const [ressource, setRessource] = useState<IRessource | null>(null);
@@ -94,6 +95,11 @@ const ManageRessources = ({autoShow = false}:ManageRessourceProps) => {
     setModalFormVisible(true);
   };
 
+  const handleClose = () => {
+    setModalFormVisible(false);
+    setCurrentLayout && setCurrentLayout('home');
+  }
+
   return (
     <>
       <div className={autoShow && 'hidden'}>
@@ -110,7 +116,7 @@ const ManageRessources = ({autoShow = false}:ManageRessourceProps) => {
       {modalFormVisible && ressource && (
         <Modal
           isOpen={modalFormVisible}
-          onClose={() => setModalFormVisible(false)}
+          onClose={handleClose}
           dismissable
           position="center"
         >
