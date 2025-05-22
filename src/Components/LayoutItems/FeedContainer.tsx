@@ -20,10 +20,11 @@ import ManageRessources from "../Ressource/ManageRessources.tsx";
 import { useUser } from "../../contexts/AuthContext.tsx";
 
 interface FeedContainerProps {
-  newRessource?: boolean;
+  newRessource?: boolean,
+  setCurrentLayout?: (layout: string) => void
 }
 
-const FeedContainer = ({ newRessource = false }: FeedContainerProps) => {
+const FeedContainer = ({ newRessource = false, setCurrentLayout }: FeedContainerProps) => {
   const { user } = useUser();
   const userId = user?.id ?? 0;
 
@@ -237,7 +238,7 @@ const FeedContainer = ({ newRessource = false }: FeedContainerProps) => {
           </div>
         </>
       )}
-      {newRessource && <ManageRessources autoShow={newRessource} />}
+      {newRessource && <ManageRessources autoShow={newRessource} setCurrentLayout={setCurrentLayout}/>}
     </>
   );
 };
