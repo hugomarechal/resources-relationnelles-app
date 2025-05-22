@@ -73,6 +73,9 @@ const AddRessourceShare = (props: AddRessourceShareProps) => {
       setError(
         "Erreur lors de l'ajout du partage : l'email doit correspondre à un compte utilisateur actif ou ne pas figurer dans les partages de cette ressource."
       );
+    } else {
+      setFormData({ email_destinataire: "" });
+      setError("");
     }
 
     props.onSubmit(!!response?.status);
