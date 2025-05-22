@@ -12,7 +12,11 @@ import { ApiResponse } from "../../api/ApiResponse";
 import { IRelationType } from "../../types/RelationType";
 import { useUser } from "../../contexts/AuthContext";
 
-const ManageRessources = () => {
+interface ManageRessourceProps {
+  autoShow?: boolean;
+}
+
+const ManageRessources = ({autoShow = false}:ManageRessourceProps) => {
   const { user } = useUser();
 
   const [ressource, setRessource] = useState<IRessource | null>(null);
@@ -22,6 +26,12 @@ const ManageRessources = () => {
 
   const [allCategorieTypes, setCategories] = useState<IRessourceCategorie[]>([]);
   const [allRelationTypes, setRelationTypes] = useState<IRelationType[]>([]);
+
+  useEffect(() => {
+    if (autoShow) {
+      handleAddClick();
+    }
+  }, [autoShow]);
 
   const triggerRefresh = () => setRefresh((prev) => !prev);
 
@@ -86,16 +96,17 @@ const ManageRessources = () => {
 
   return (
     <>
-      <h3 className="text-3xl font-bold dark:text-white mt-4 mb-5">
-        Gestion des ressources
-      </h3>
+      <div className={autoShow && 'hidden'}>
+          <h3 className="text-3xl font-bold dark:text-white mt-4 mb-5">
+            Gestion des ressources
+          </h3>
 
-      <Button icon={<FaPlus size={20} />} onClick={handleAddClick} />
+          <Button icon={<FaPlus size={20} />} onClick={handleAddClick} />
 
-      <div className="mt-4">
-        {user && <RessourcesAdminList refreshRessources={refresh} user={user} />}
+          <div className="mt-4">
+            {user && <RessourcesAdminList refreshRessources={refresh} user={user} />}
+          </div>
       </div>
-
       {modalFormVisible && ressource && (
         <Modal
           isOpen={modalFormVisible}

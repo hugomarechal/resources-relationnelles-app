@@ -25,13 +25,13 @@ function App() {
             case 'home':
                 return <FeedContainer/>;
             case 'new':
-                return isLoggedIn ? <NewResourceLayout/> : <AuthPage/>;
+                return isLoggedIn ? <FeedContainer newRessource={true}/> : <AuthPage/>;
             case 'profile':
                 return isLoggedIn ? <ProfileLayout/> : <AuthPage/>;
             case 'admin':
                 return isLoggedIn && isAdmin ? <AdminLayout adminOption={adminOption} /> : <AuthPage />;
             default:
-                return <FeedContainer/>;
+                break;
         }
     }
 

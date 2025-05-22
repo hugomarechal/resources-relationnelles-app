@@ -16,7 +16,14 @@ import { IRelationType } from "../../types/RelationType.ts";
 import { IRessourceCategorie } from "../../types/RessourceCategorie.ts";
 import RessourceDetail from "../Ressource/RessourceDetail.tsx";
 import { FaBackward } from "react-icons/fa";
+import ManageRessources from "../Ressource/ManageRessources.tsx";
 import { useUser } from "../../contexts/AuthContext.tsx";
+
+interface FeedContainerProps {
+  newRessource?: boolean
+}
+
+const FeedContainer = ({newRessource = false}: FeedContainerProps) => {
 
 const FeedContainer = () => {
   const { user } = useUser();
@@ -229,6 +236,7 @@ const FeedContainer = () => {
           </div>
         </>
       )}
+      {newRessource && <ManageRessources autoShow={newRessource}/>}
     </>
   );
 };
