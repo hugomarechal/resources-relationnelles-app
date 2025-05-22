@@ -24,8 +24,6 @@ interface FeedContainerProps {
 }
 
 const FeedContainer = ({newRessource = false}: FeedContainerProps) => {
-
-const FeedContainer = () => {
   const { user } = useUser();
   const userId = user?.id ?? 0;
 
